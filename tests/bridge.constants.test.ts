@@ -1,7 +1,6 @@
-import { Seats, Deck, Rank } from "../src/bridge/constants"
+import { Deck, Rank } from "../src/bridge/constants"
 
 test("Ensure the sizes are right", () => {
-    expect(Seats.all.length).toBe(4)
     expect(Deck.suits.all.length).toBe(4)
     expect(Deck.ranks.all.length).toBe(13)
     expect(Deck.cards.all.length).toBe(52)
@@ -9,12 +8,6 @@ test("Ensure the sizes are right", () => {
 
 test('cards.byName when card does not exist', () => {
     expect(() => Deck.cards.byName('NA')).toThrow()
-})
-
-test("Ensure seat orders are in agreement", () => {
-    Seats.each((seat, index) => {
-        expect(seat.order).toBe(index)
-    })
 })
 
 test("Ensure suit orders are in agreement", () => {
@@ -101,19 +94,13 @@ test('Rank.of()',()=>{
     expect(Deck.ranks.ace.of(Deck.suits.spades)).toBe(Deck.cards.byName('SA'))
 })
 
-test('Objects should be frozen', ()=> {
-    expect(() => { Seats.all = [] }).toThrow()
-    expect(() => { Seats.north = { name:'foo', letter:'f', order:999 } }).toThrow()
-    expect(() => { Seats.north.order = 10 }).toThrow()
-})
-
 test('Ranks from bits', ()=> {
     const ranks = Deck.ranks
     expect(ranks.fromBits(ranks.ace.bit|ranks.jack.bit|ranks.ten.bit)).toEqual([ranks.ace,ranks.jack,ranks.ten])
 })
 
 Deck.ranks.each((rank:Rank) => {
-    test('Ranks for bits for rank ' + rank.brief , () => {
+    test('Ranks for bits for rank ' + rank.name , () => {
         expect(Deck.ranks.fromBits(rank.bit)).toEqual([rank])
     })
 })

@@ -113,7 +113,7 @@ test('Ranks from bits', ()=> {
 })
 
 Deck.ranks.each((rank:Rank) => {
-    test('Ranks for bits for rank ' + rank.name , () => {
+    test('Ranks for bits for rank ' + rank.brief , () => {
         expect(Deck.ranks.fromBits(rank.bit)).toEqual([rank])
     })
 })

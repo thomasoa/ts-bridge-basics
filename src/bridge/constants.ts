@@ -157,12 +157,6 @@ const Three = new Rank('3', 'three', 11)
 const Two = new Rank('2', 'two', 12)
 const AllRanks: readonly Rank[] = f([Ace, King, Queen, Jack, Ten, Nine, Eight, Seven, Six, Five, Four, Three, Two])
 
-const RanksByName: UpcaseMap<Rank> = new UpcaseMap<Rank>()
-AllRanks.forEach((rank:Rank) => {
-    RanksByName.set(rank.brief, rank)
-    RanksByName.set(rank.name, rank)
-})
-
 function ranksFromBits(bits: number): Rank[] {
     const ranks = new Array<Rank>()
     AllRanks.forEach((rank) => {
@@ -183,6 +177,7 @@ class RankParser {
     full: string
     rank: Rank
     constructor(text: string, rank: Rank) {
+        text = text.toUpperCase()
         this.letter = text.slice(0, 1)
         this.full = text
         this.rank = rank
@@ -191,6 +186,7 @@ class RankParser {
     get length() { return this.full.length }
 
     apply(text: string): RankLookupResult {
+        text = text.toUpperCase()
         if (text.slice(0, this.length) == this.full) {
             return { rank: this.rank, rest: text.slice(this.length) }
         }

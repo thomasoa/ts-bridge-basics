@@ -47,3 +47,20 @@ test('ranks.parse examples', () => {
     expect(() => Deck.ranks.parse('--')).toThrow()
 
 })
+
+test('Rank.of()',()=>{
+    expect(Deck.ranks.ace.of(Deck.suits.spades)).toBe(Deck.cards.byName('SA'))
+})
+
+test('Ranks from bits', ()=> {
+    const ranks = Deck.ranks
+    expect(ranks.fromBits(ranks.ace.bit|ranks.jack.bit|ranks.ten.bit)).toEqual([ranks.ace,ranks.jack,ranks.ten])
+})
+
+Deck.ranks.each((rank:Rank) => {
+    test('Ranks for bits for rank ' + rank.name , () => {
+        expect(Deck.ranks.fromBits(rank.bit)).toEqual([rank])
+    })
+})
+
+

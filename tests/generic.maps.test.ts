@@ -32,3 +32,15 @@ test('Generic constructor with provided map', () => {
     expect(exMap.get('10')).toBe('ten')
     expect(exMap.get('2000')).toBe('two thousand')
 })
+
+test('Generic constructor with internal map', ()=> {
+    type WithToString = { toString: () => string }
+    const transform = (s: WithToString) => s.toString()
+    const map = new TransformKeyMap<WithToString, string,string>(transform)
+    map.set(10,'ten')
+    map.set(BigInt(2000),'two thousand')
+    expect(map.get(BigInt(10))).toBe('ten')
+    expect(map.get(2000)).toBe('two thousand')
+
+
+})

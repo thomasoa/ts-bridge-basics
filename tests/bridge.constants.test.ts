@@ -1,4 +1,4 @@
-import { Seats, Deck } from "../src/bridge/constants"
+import { Seats, Deck, Rank } from "../src/bridge/constants"
 
 test("Ensure the sizes are right", () => {
     expect(Seats.all.length).toBe(4)
@@ -106,3 +106,19 @@ test('Objects should be frozen', ()=> {
     expect(() => { Seats.north = { name:'foo', letter:'f', order:999 } }).toThrow()
     expect(() => { Seats.north.order = 10 }).toThrow()
 })
+
+test('Ranks from bits', ()=> {
+    const ranks = Deck.ranks
+    expect(ranks.fromBits(ranks.ace.bit|ranks.jack.bit|ranks.ten.bit)).toEqual([ranks.ace,ranks.jack,ranks.ten])
+})
+
+Deck.ranks.each((rank:Rank) => {
+    test('Ranks for bits for rank ' + rank.name , () => {
+        expect(Deck.ranks.fromBits(rank.bit)).toEqual([rank])
+    })
+})
+
+test('lookupCardsByName', ()=> {
+    const dt = Deck.card(Deck.suits.diamonds, Deck.ranks.ten)
+    expect(Deck.cards.byNames('10D','10d','10d', '10D','dt','TD')).toEqual([dt,dt,dt,dt,dt,dt])
+}) 

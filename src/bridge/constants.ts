@@ -81,12 +81,14 @@ type Suit = {
 
 class Rank {
     brief: string
+    name: string
     order: number
     bit: number
     letter: string
     summand: number
-    constructor(brief: string, order: number, letter: string | undefined = undefined) {
+    constructor(brief: string, name:string, order: number, letter: string | undefined = undefined) {
         this.brief = brief
+        this.name = name
         this.order = order
         this.bit = 1 << (12 - order)
         this.letter = letter || brief
@@ -140,20 +142,26 @@ class Card {
     }
 }
 
-const Ace = new Rank('A', 0)
-const King = new Rank('K', 1)
-const Queen = new Rank('Q', 2)
-const Jack = new Rank('J', 3)
-const Ten = new Rank('10', 4, 'T')
-const Nine = new Rank('9', 5)
-const Eight = new Rank('8', 6)
-const Seven = new Rank('7', 7)
-const Six = new Rank('6', 8)
-const Five = new Rank('5', 9)
-const Four = new Rank('4', 10)
-const Three = new Rank('3', 11)
-const Two = new Rank('2', 12)
+const Ace = new Rank('A','ace', 0)
+const King = new Rank('K','king', 1)
+const Queen = new Rank('Q','queen', 2)
+const Jack = new Rank('J','jack', 3)
+const Ten = new Rank('10','ten', 4, 'T')
+const Nine = new Rank('9', 'nine', 5)
+const Eight = new Rank('8','eight', 6)
+const Seven = new Rank('7','seven', 7)
+const Six = new Rank('6', 'six', 8)
+const Five = new Rank('5','five', 9)
+const Four = new Rank('4', 'four', 10)
+const Three = new Rank('3', 'three', 11)
+const Two = new Rank('2', 'two', 12)
 const AllRanks: readonly Rank[] = f([Ace, King, Queen, Jack, Ten, Nine, Eight, Seven, Six, Five, Four, Three, Two])
+
+const RanksByName: UpcaseMap<Rank> = new UpcaseMap<Rank>()
+AllRanks.forEach((rank:Rank) => {
+    RanksByName.set(rank.brief, rank)
+    RanksByName.set(rank.name, rank)
+})
 
 function ranksFromBits(bits: number): Rank[] {
     const ranks = new Array<Rank>()

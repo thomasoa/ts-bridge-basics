@@ -1,8 +1,6 @@
-import { Deck, Rank } from "../src/bridge/constants"
+import { Deck } from "../src/bridge/constants"
 
-test("Ensure the sizes are right", () => {
-    expect(Deck.suits.all.length).toBe(4)
-    expect(Deck.ranks.all.length).toBe(13)
+test("Ensure there are 52 cardsß", () => {
     expect(Deck.cards.all.length).toBe(52)
 })
 

@@ -1,5 +1,9 @@
 import {Deck, Rank} from "../src/bridge/constants"
 
+test("Ensure there are 13 ranks", () => {
+    expect(Deck.ranks.all.length).toBe(13)
+})
+
 test("Ensure rank orders agree with the linear order", () => {
     expect(Deck.ranks.all[0]).toBe(Deck.ranks.ace)
     Deck.ranks.each((rank, index) => {

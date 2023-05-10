@@ -62,7 +62,7 @@ class Seat {
     select<T>(tuple:SeatTuple<T>):T {
         return tuple[this.order]
     }
-    
+
     shift(positive:number):Seat {
         return Seat.AllSeats[(this.order + positive)%4]
     }
@@ -112,7 +112,8 @@ type Suit = {
     letter: string;
     symbol: string;
     order: number,
-    summand: number
+    summand: number,
+    select: <T>(tuple:SuitTuple<T>) => T
 }
 
 class Rank {
@@ -133,10 +134,46 @@ class Rank {
     }
 }
 
-const Spades: Suit = f({ name: 'spades', singular: 'spade', letter: 'S', symbol: '\U+2660', order: 0, summand: 0 })
-const Hearts: Suit = f({ name: 'hearts', singular: 'heart', letter: 'H', symbol: '\U+2665', order: 1, summand: 13 * 1 })
-const Diamonds: Suit = f({ name: 'diamonds', singular: 'diamond', letter: 'D', symbol: '\U+2666', order: 2, summand: 13 * 2 })
-const Clubs: Suit = f({ name: 'clubs', singular: 'club', letter: 'C', symbol: '\U+2663', order: 3, summand: 13 * 3 })
+function suitSelector(order:number): <T>(t:SuitTuple<T>) => T {
+    return <T>(tuple:SuitTuple<T>):T => { return tuple[order]}
+}
+
+const Spades: Suit = f({ 
+    name: 'spades', 
+    singular: 'spade', 
+    letter: 'S', 
+    symbol: '\U+2660', 
+    select:suitSelector(0), 
+    order: 0, 
+    summand: 0 
+})
+const Hearts: Suit = f({ 
+    name: 'hearts', 
+    singular: 'heart', 
+    letter: 'H', 
+    symbol: '\U+2665', 
+    select:suitSelector(1),
+    order: 1, 
+    summand: 13 * 1 
+})
+const Diamonds: Suit = f({ 
+    name: 'diamonds', 
+    singular: 'diamond', 
+    letter: 'D', 
+    symbol: '\U+2666', 
+    select:suitSelector(2), 
+    order: 2, 
+    summand: 13 * 2 
+})
+const Clubs: Suit = f({ 
+    name: 'clubs', 
+    singular: 'club', 
+    letter: 'C', 
+    symbol: '\U+2663', 
+    select:suitSelector(3), 
+    order: 3, 
+    summand: 13 * 3 
+})
 const AllSuits: readonly Suit[] = [Spades, Hearts, Diamonds, Clubs]
 Object.freeze(AllSuits)
 

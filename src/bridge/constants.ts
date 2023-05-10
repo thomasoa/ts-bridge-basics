@@ -111,10 +111,10 @@ type Suit = {
     singular: string,
     letter: string;
     symbol: string;
-    order: number,
-    summand: number,
     color: "red"|"black",
     type: "major" | "minor",
+    order: number,
+    summand: number,
     select: <T>(tuple:SuitTuple<T>) => T
 }
 
@@ -146,7 +146,7 @@ const Spades: Suit = f({
     letter: 'S', 
     symbol: '\U+2660', 
     color: "black",
-    type: "majo",
+    type: "major",
     select:suitSelector(0), 
     order: 0, 
     summand: 0 
@@ -157,7 +157,7 @@ const Hearts: Suit = f({
     letter: 'H', 
     symbol: '\U+2665', 
     color: "red",
-    type: "majo",
+    type: "major",
     select:suitSelector(1),
     order: 1, 
     summand: 13 * 1 

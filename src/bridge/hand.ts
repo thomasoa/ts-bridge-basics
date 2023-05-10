@@ -30,7 +30,7 @@ class PartialHand {
     isSpot(card:Card):boolean {
         return this.safeHolding(card.suit).isSpot(card.rank)
     }
-    
+
     eachHolding(callback: (suit:Suit,holding:HoldingLike) => void):void {
         Deck.suits.all.forEach((suit:Suit) => {
             const holding: OptionalHolding = this.holdings[suit.order]

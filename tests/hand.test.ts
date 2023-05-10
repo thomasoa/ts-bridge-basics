@@ -25,6 +25,10 @@ test('partial hand with X holdings', ()=> {
     expect(partial.has(R.ace.of(S.spades))).toBeTruthy()
     expect(partial.has(R.queen.of(S.hearts))).toBeFalsy()
     expect(partial.has(R.queen.of(S.diamonds))).toBeFalsy()
+
+    expect(partial.isSpot(R.ace.of(S.spades))).toBeFalsy()
+    expect(partial.isSpot(R.ace.of(S.hearts))).toBeFalsy()
+    expect(partial.isSpot(R.three.of(S.spades))).toBeTruthy()
     
     const nonSpots = new Array<String>()
     const spots = new Array<String>()

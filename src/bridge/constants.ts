@@ -38,25 +38,56 @@ function f<T>(obj: T): T {
 }
 
 
-type Seat = {
-    name: string;
-    letter: string;
-    order: number
+class Seat {
+    private static readonly AllSeats:Seat[] = new Array<Seat>(4)
+    readonly name: string;
+    readonly letter: string;
+    readonly order: number
+    constructor(name: string,letter: string,order: number) {
+        if (Seat.AllSeats[order]) {
+            return Seat.AllSeats[order]
+        }
+        this.name = name
+        this.letter = letter
+        this.order = order
+        Seat.AllSeats[order] = this
+    }
+
+    static get all():readonly Seat[] {
+        return Seat.AllSeats
+    }
+
+    shift(positive:number):Seat {
+        return Seat.AllSeats[(this.order + positive)%4]
+    }
+
+    get lho():Seat {
+        return this.shift(1)
+    }
+
+    get partner():Seat {
+        return this.shift(2)
+    }
+
+    get rho():Seat {
+        return this.shift(3)
+    }
 }
 
-const North = { name: "north", letter: "N", order: 0 }
-const East = { name: "east", letter: "E", order: 1 }
-const South = { name: "south", letter: "S", order: 2 }
-const West = { name: "west", letter: "W", order: 3 }
-const AllSeats: readonly Seat[] = [North, East, South, West]
-AllSeats.forEach(Object.freeze)
-Object.freeze(AllSeats)
+const North = new Seat("north", "N", 0) 
+const East = new Seat("east", "E", 1)
+const South = new Seat( "south", "S", 2)
+const West = new Seat("west", "W", 3)
+
 const SeatNameMap = new UpcaseMap<Seat>()
-AllSeats.forEach((seat:Seat) => {
+
+Seat.all.forEach((seat:Seat) => {
+    console.log(seat)
     SeatNameMap.set(seat.name, seat)
     SeatNameMap.set(seat.letter, seat)
 })
 
+const AllSeats = Seat.all
 const Seats = {
     north: North,
     east: East,

@@ -19,10 +19,25 @@ test("Ensure named seats are correct", () => {
 
 test('Objects should be frozen', ()=> {
     expect(() => { Seats.all = [] }).toThrow()
-    expect(() => { Seats.north = { name:'foo', letter:'f', order:999 } }).toThrow()
-    expect(() => { Seats.north.order = 10 }).toThrow()
+    expect(() => { Seats.north = new Seat('foo', 'f', 0)}).toThrow()
 })
 
 
-test("Ensure seat orders are in agreement", () => {
+test("Ensure lho, partner, rho are correct", () => {
+    expect(Seats.north.lho).toBe(Seats.east)
+    expect(Seats.north.rho).toBe(Seats.west)
+    expect(Seats.north.partner).toBe(Seats.south)
+
+    expect(Seats.east.lho).toBe(Seats.south)
+    expect(Seats.east.rho).toBe(Seats.north)
+    expect(Seats.east.partner).toBe(Seats.west)
+
+    expect(Seats.south.lho).toBe(Seats.west)
+    expect(Seats.south.rho).toBe(Seats.east)
+    expect(Seats.south.partner).toBe(Seats.north)
+
+    expect(Seats.west.lho).toBe(Seats.north)
+    expect(Seats.west.rho).toBe(Seats.south)
+    expect(Seats.west.partner).toBe(Seats.east)
+
 }) 

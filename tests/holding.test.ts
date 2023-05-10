@@ -39,18 +39,24 @@ test("AK2 Holding", () => {
    expect(holding.below(r.five)).toBe(Holding.forString('2'))
    expect(holding.isSpot(r.two)).toBeFalsy()
    expect(holding.remove(r.five).asString()).toBe('AK2')
+   expect(() => holding.remove(Deck.ranks.queen)).toThrow()
+   expect(() => holding.remove(Deck.ranks.three)).toThrow()
+
 })
 
 test('XHolding basics', () => {
     const xh = new XHolding(Holding.forString('AJ'),4)
     expect(xh.length).toBe(6)
     expect(xh.holding).toBe(Holding.forString('AJ5432'))
+    expect(xh.topSpot).toBe(Deck.ranks.five)
     expect(xh.asString()).toBe('AJXXXX')
     expect(xh.isSpot(Deck.ranks.five)).toBeTruthy()
     expect(xh.isSpot(Deck.ranks.six)).toBeFalsy()
     expect(xh.remove(Deck.ranks.jack).asString()).toBe('AXXXX')
     expect(xh.remove(Deck.ranks.five).asString()).toBe('AJXXX')
     expect(xh.remove(Deck.ranks.two).asString()).toBe('AJXXX')
+    expect(() => xh.remove(Deck.ranks.queen)).toThrow()
+    expect(() => xh.remove(Deck.ranks.six)).toThrow()
 })
 
 test('XHolding void', ()=> {

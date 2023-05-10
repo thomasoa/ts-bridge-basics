@@ -126,8 +126,9 @@ class XHolding {
         return rank.order + this.spots >= 13
     }
 
-    topSpot():Rank {
-        return Deck.ranks[12-this.spots]
+    get topSpot():Rank {
+        console.log(this.spots)
+        return Deck.ranks.all[13-this.spots]
     }
 
     remove(rank:Rank):XHolding {

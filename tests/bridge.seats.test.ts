@@ -1,4 +1,4 @@
-import { Seats, Seat } from "../src/bridge/constants"
+import { Seats, Seat, SeatTuple } from "../src/bridge/constants"
 
 test("Ensure the size is right", () => {
     expect(Seats.all.length).toBe(4)
@@ -41,3 +41,11 @@ test("Ensure lho, partner, rho are correct", () => {
     expect(Seats.west.partner).toBe(Seats.east)
 
 }) 
+
+test('Seat.select from SeatTuple', ()=> {
+    const st:SeatTuple<String> = ['a','b','c','d']
+    expect(Seats.north.select(st)).toBe('a')
+    expect(Seats.east.select(st)).toBe('b')
+    expect(Seats.south.select(st)).toBe('c')
+    expect(Seats.west.select(st)).toBe('d')
+})

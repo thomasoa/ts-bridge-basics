@@ -19,7 +19,9 @@ class PartialHand {
         this.spots = spots
     }
 
-    holding(suit:Suit):OptionalHolding { return this.holdings[suit.order] }
+    holding(suit:Suit):OptionalHolding { 
+        return suit.select(this.holdings)
+    }
 
     safeHolding(suit:Suit):HoldingLike { 
         return this.holding(suit) || PartialHand.voidH 
@@ -55,9 +57,7 @@ class PartialHand {
             suits.push((suit[key] as string)+holding.asString(''))
         })
         return suits.join(' ')
-    }
-
-    
+    }   
 }
 
 export {PartialHand, Suit, SuitTuple, }

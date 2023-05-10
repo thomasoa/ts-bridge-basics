@@ -200,6 +200,8 @@ const Suits = {
     diamonds: Diamonds,
     clubs: Clubs,
     all: AllSuits as readonly Suit[],
+    majors: [Spades, Hearts] as readonly Suit[],
+    minors: [Diamonds, Clubs] as readonly  Suit[],
     each: AllSuits.forEach.bind(AllSuits),
     map: AllSuits.map.bind(AllSuits),
     byText: SuitNameMap.get.bind(SuitNameMap)

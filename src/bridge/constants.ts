@@ -113,6 +113,8 @@ type Suit = {
     symbol: string;
     order: number,
     summand: number,
+    color: "red"|"black",
+    type: "major" | "minor",
     select: <T>(tuple:SuitTuple<T>) => T
 }
 
@@ -143,6 +145,8 @@ const Spades: Suit = f({
     singular: 'spade', 
     letter: 'S', 
     symbol: '\U+2660', 
+    color: "black",
+    type: "majo",
     select:suitSelector(0), 
     order: 0, 
     summand: 0 
@@ -152,6 +156,8 @@ const Hearts: Suit = f({
     singular: 'heart', 
     letter: 'H', 
     symbol: '\U+2665', 
+    color: "red",
+    type: "majo",
     select:suitSelector(1),
     order: 1, 
     summand: 13 * 1 
@@ -161,6 +167,8 @@ const Diamonds: Suit = f({
     singular: 'diamond', 
     letter: 'D', 
     symbol: '\U+2666', 
+    color:  "red",
+    type: "minor",
     select:suitSelector(2), 
     order: 2, 
     summand: 13 * 2 
@@ -170,6 +178,8 @@ const Clubs: Suit = f({
     singular: 'club', 
     letter: 'C', 
     symbol: '\U+2663', 
+    color: "black",
+    type: "minor",
     select:suitSelector(3), 
     order: 3, 
     summand: 13 * 3 

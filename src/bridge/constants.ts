@@ -82,7 +82,6 @@ const West = new Seat("west", "W", 3)
 const SeatNameMap = new UpcaseMap<Seat>()
 
 Seat.all.forEach((seat:Seat) => {
-    console.log(seat)
     SeatNameMap.set(seat.name, seat)
     SeatNameMap.set(seat.letter, seat)
 })

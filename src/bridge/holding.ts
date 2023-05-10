@@ -36,6 +36,13 @@ class Holding {
         return (this.bits & rank.bit) != 0
     }
 
+    remove(rank:Rank):Holding {
+        if (this.has(rank)) {
+            return new Holding(this.bits & ~rank.bit)
+        }
+        throw new Error('Cannot remove rank '+rank.name +' from holding ' + this.asString())
+    }
+
     above(rank:Rank):Holding {
         return new Holding(this.bits & ~((rank.bit<<1)-1))
     }
@@ -74,6 +81,8 @@ class Holding {
 class XHolding {
     readonly holding:Holding
     readonly spots:number
+    readonly spotBits:number
+    private nonSpots: Holding
 
     constructor(topCards:Holding, spots:number) {
         const spotBits = (1<<spots) -1
@@ -83,6 +92,8 @@ class XHolding {
         }
         this.holding = new Holding(topCards.bits | spotBits)
         this.spots = spots
+        this.spotBits = spotBits
+        this.nonSpots = topCards
     }
 
     get length() {
@@ -110,9 +121,25 @@ class XHolding {
     has(rank:Rank):boolean {
         return this.holding.has(rank)
     }
-    
+
     isSpot(rank:Rank):boolean {
         return rank.order + this.spots >= 13
+    }
+
+    topSpot():Rank {
+        return Deck.ranks[12-this.spots]
+    }
+
+    remove(rank:Rank):XHolding {
+        if (this.has(rank)) {
+            const h = this.nonSpots
+            if (this.isSpot(rank)) {
+                return new XHolding(h,this.spots-1)
+            } else {
+                return new XHolding(h.remove(rank),this.spots)
+            }
+        }
+        throw new Error('Cannot remove rank '+rank.name +' from holding ' + this.asString())
     }
 
  }
@@ -121,6 +148,7 @@ class XHolding {
     asString(divider: string):string
     holding: Holding
     length: number
+    spots: number
     ranks: readonly Rank[]
     isSpot(r:Rank):boolean,
     has(r:Rank):boolean

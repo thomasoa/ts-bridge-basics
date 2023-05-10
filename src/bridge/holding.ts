@@ -46,5 +46,42 @@ class Holding {
     }
         
  }
+
+/**
+ * Representation of a holding with a number of unknown spots, like AKJX or TXX.
+ */ 
+class XHolding {
+    readonly holding:Holding
+    readonly spots:number
+
+    constructor(topCards:Holding, spots:number) {
+        const spotBits = (1<<spots) -1
+        if (spotBits & topCards.bits) {
+            // Invalidate examples like '5xxxx'
+            throw new Error('Too many spots below lowest rank')
+        }
+        this.holding = new Holding(topCards.bits | spotBits)
+        this.spots = spots
+    }
+
+    get length() {
+        return this.holding.length
+    }
+
+    private rankText(rank:Rank) {
+        if (rank.order + this.spots <13) { 
+            return rank.brief
+        }
+        return Deck.ranks.spotChar
+    }
+
+    asString(divider:string=''):string {
+        if (this.length == 0) {
+            return '-'
+        }
+        return this.holding.ranks.map(this.rankText.bind(this)).join(divider)
+    }
+
+ }
         
-export {Holding, Deck, Rank}
+export {Holding, XHolding, Deck, Rank}

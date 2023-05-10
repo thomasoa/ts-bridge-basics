@@ -1,5 +1,5 @@
-import {Holding} from "../src/bridge/holding"
-import { Deck, Seats} from "../src/bridge/constants"
+import {Holding, XHolding} from "../src/bridge/holding"
+import { Deck, Rank} from "../src/bridge/constants"
 
 test("Holding void", () => {
    const holding = new Holding(0)
@@ -27,4 +27,10 @@ test("AK2 Holding", () => {
    expect(holding.has(Deck.ranks.queen)).toBeFalsy()
    expect(holding.has(Deck.ranks.three)).toBeFalsy()
    expect(holding.has(Deck.ranks.two)).toBeTruthy()
+})
+
+test('XHolding basics', () => {
+    const xh = new XHolding(new Holding(0),4)
+    expect(xh.holding.asString()).toBe('5432')
+    expect(xh.asString()).toBe('XXXX')
 })

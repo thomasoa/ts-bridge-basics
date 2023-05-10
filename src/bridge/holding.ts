@@ -37,7 +37,7 @@ class Holding {
     }
 
     above(rank:Rank):Holding {
-        return new Holding(this.bits & ~(rank.bit<<1-1))
+        return new Holding(this.bits & ~((rank.bit<<1)-1))
     }
     aboveEq(rank:Rank):Holding {
         return new Holding(this.bits & ~(rank.bit-1))
@@ -47,7 +47,6 @@ class Holding {
         return new Holding(this.bits & (rank.bit-1))
     }
     belowEq(rank:Rank):Holding {
-        console.log(this.bits, rank.bit)
         return new Holding(this.bits & ((rank.bit<<1)-1))
     }
     

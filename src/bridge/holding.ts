@@ -127,8 +127,10 @@ class XHolding {
     }
 
     get topSpot():Rank {
-        console.log(this.spots)
-        return Deck.ranks.all[13-this.spots]
+        if (this.spots) {
+            return Deck.ranks.all[13-this.spots]
+        }
+        throw new Error('No spots, so no topSpot')
     }
 
     remove(rank:Rank):XHolding {

@@ -37,6 +37,7 @@ test("AK2 Holding", () => {
    expect(holding.aboveEq(r.five)).toBe(Holding.forString('AK5'))
    expect(holding.belowEq(r.five)).toBe(Holding.forString('52'))
    expect(holding.below(r.five)).toBe(Holding.forString('2'))
+   expect(holding.isSpot(r.two)).toBeFalsy()
 })
 
 test('XHolding basics', () => {
@@ -44,6 +45,8 @@ test('XHolding basics', () => {
     expect(xh.length).toBe(6)
     expect(xh.holding).toBe(Holding.forString('AJ5432'))
     expect(xh.asString()).toBe('AJXXXX')
+    expect(xh.isSpot(Deck.ranks.five)).toBeTruthy()
+    expect(xh.isSpot(Deck.ranks.six)).toBeFalsy()
 })
 
 test('XHolding void', ()=> {

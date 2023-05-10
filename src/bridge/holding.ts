@@ -61,6 +61,10 @@ class Holding {
 
     get holding():Holding { return this }
     get spots():number { return 0 }
+
+    isSpot(rank:Rank):boolean {
+        return false
+    }
         
  }
 
@@ -99,12 +103,27 @@ class XHolding {
         return this.holding.ranks.map(this.rankText.bind(this)).join(divider)
     }
 
+    get ranks():readonly Rank[] { 
+        return this.holding.ranks 
+    }
+
+    has(rank:Rank):boolean {
+        return this.holding.has(rank)
+    }
+    
+    isSpot(rank:Rank):boolean {
+        return rank.order + this.spots >= 13
+    }
+
  }
 
  interface HoldingLike {
     asString(divider: string):string
     holding: Holding
     length: number
+    ranks: readonly Rank[]
+    isSpot(r:Rank):boolean,
+    has(r:Rank):boolean
  }
 
 export {Holding, XHolding, Deck, Rank, HoldingLike}

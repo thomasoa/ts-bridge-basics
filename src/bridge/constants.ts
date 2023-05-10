@@ -74,6 +74,9 @@ class Seat {
     }
 }
 
+type SeatTuple<T> =  [T,T,T,T]
+type SuitTuple<T> = [T,T,T,T]
+
 const North = new Seat("north", "N", 0) 
 const East = new Seat("east", "E", 1)
 const South = new Seat( "south", "S", 2)
@@ -365,5 +368,5 @@ Object.freeze(Deck)
 
 export {
     Deck, Seats, /* constants */
-    Suit, Rank, Card, Seat /* types */
+    Suit, Rank, Card, Seat, SeatTuple, SuitTuple /* types */
 }

@@ -37,9 +37,11 @@ function f<T>(obj: T): T {
     return obj
 }
 
+type SeatTuple<T> =  [T,T,T,T]
+type SuitTuple<T> = [T,T,T,T]
 
 class Seat {
-    private static readonly AllSeats:Seat[] = new Array<Seat>(4)
+    private static readonly AllSeats = new Array<Seat>(4)
     readonly name: string;
     readonly letter: string;
     readonly order: number
@@ -57,6 +59,10 @@ class Seat {
         return Seat.AllSeats
     }
 
+    select<T>(tuple:SeatTuple<T>):T {
+        return tuple[this.order]
+    }
+    
     shift(positive:number):Seat {
         return Seat.AllSeats[(this.order + positive)%4]
     }
@@ -73,9 +79,6 @@ class Seat {
         return this.shift(3)
     }
 }
-
-type SeatTuple<T> =  [T,T,T,T]
-type SuitTuple<T> = [T,T,T,T]
 
 const North = new Seat("north", "N", 0) 
 const East = new Seat("east", "E", 1)

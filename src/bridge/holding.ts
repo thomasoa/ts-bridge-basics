@@ -36,6 +36,21 @@ class Holding {
         return (this.bits & rank.bit) != 0
     }
 
+    above(rank:Rank):Holding {
+        return new Holding(this.bits & ~(rank.bit<<1-1))
+    }
+    aboveEq(rank:Rank):Holding {
+        return new Holding(this.bits & ~(rank.bit-1))
+    }
+    
+    below(rank:Rank):Holding {
+        return new Holding(this.bits & (rank.bit-1))
+    }
+    belowEq(rank:Rank):Holding {
+        console.log(this.bits, rank.bit)
+        return new Holding(this.bits & ((rank.bit<<1)-1))
+    }
+    
     static forString(text:string):Holding {
         return  Holding.fromRanks(Deck.ranks.parse(text))
     }
@@ -44,6 +59,9 @@ class Holding {
         const bits = ranks.reduce((b:number,rank:Rank) => b | rank.bit,0)
         return new Holding(bits)
     }
+
+    get holding():Holding { return this }
+    get spots():number { return 0 }
         
  }
 
@@ -83,5 +101,11 @@ class XHolding {
     }
 
  }
-        
-export {Holding, XHolding, Deck, Rank}
+
+ interface HoldingLike {
+    asString(divider: string):string
+    holding: Holding
+    length: number
+ }
+
+export {Holding, XHolding, Deck, Rank, HoldingLike}

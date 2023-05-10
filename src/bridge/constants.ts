@@ -262,6 +262,7 @@ const Ranks = f({
     four: Four,
     three: Three,
     two: Two,
+    spotChar: 'X',
     all: AllRanks,
     each: AllRanks.forEach.bind(AllRanks),
     map: AllRanks.map.bind(AllRanks),

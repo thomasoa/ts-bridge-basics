@@ -63,6 +63,7 @@ test('XHolding void', ()=> {
     const voidXH = new XHolding(new Holding(0),0)
     expect(voidXH.asString()).toBe('-')
     expect(voidXH.length).toBe(0)
+    expect(() => voidXH.topSpot).toThrow()
 })
 
 test('XHolding constructor throws exception', ()=> {

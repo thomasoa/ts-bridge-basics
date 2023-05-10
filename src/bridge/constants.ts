@@ -37,8 +37,8 @@ function f<T>(obj: T): T {
     return obj
 }
 
-type SeatTuple<T> =  [T,T,T,T]
-type SuitTuple<T> = [T,T,T,T]
+type SeatTuple<T> =   readonly [T,T,T,T]
+type SuitTuple<T> =  readonly [T,T,T,T]
 
 class Seat {
     private static readonly AllSeats = new Array<Seat>(4)

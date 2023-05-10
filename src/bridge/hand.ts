@@ -7,14 +7,16 @@ type SuitTuple<T> = readonly [T,T,T,T]
 
 class PartialHand {
     static readonly voidH = new Holding(0)
-    readonly holdings: SuitTuple<OptionalHolding>
-    readonly length: number
-
+     holdings: SuitTuple<OptionalHolding>
+     length: number
+     spots: number
+    
     constructor(holdings: SuitTuple<OptionalHolding>) {
         this.holdings = holdings
-        let length = 0
-        this.eachHolding((s:Suit,h:HoldingLike) => { length += h.length})
+        let length = 0, spots = 0
+        this.eachHolding((s:Suit,h:HoldingLike) => { length += h.length ; spots += h.spots })
         this.length = length
+        this.spots = spots
     }
 
     holding(suit:Suit):OptionalHolding { return this.holdings[suit.order] }

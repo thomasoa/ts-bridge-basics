@@ -1,4 +1,4 @@
-import {Deck, Rank} from "./constants"
+import {Deck, Rank, Suit} from "./constants"
 
 class Holding {
     static lwHoldings = new Array<Holding>(1<<13)
@@ -157,4 +157,9 @@ class XHolding {
     has(r:Rank):boolean
  }
 
-export {Holding, XHolding, Deck, Rank, HoldingLike}
+ type SuitHolding {
+    suit:Suit,
+    holding: HoldingLike
+ }
+
+export {Holding, XHolding, Deck, Rank, HoldingLike, SuitHolding}

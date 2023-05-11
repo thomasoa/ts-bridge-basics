@@ -210,8 +210,6 @@ const Suits = {
 Suits.each(Object.freeze)
 Object.freeze(Suits)
 
-
-
 class Card {
     suit: Suit;
     rank: Rank;

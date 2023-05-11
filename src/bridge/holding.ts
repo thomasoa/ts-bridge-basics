@@ -157,7 +157,7 @@ class XHolding {
     has(r:Rank):boolean
  }
 
- type SuitHolding {
+ type SuitHolding = {
     suit:Suit,
     holding: HoldingLike
  }

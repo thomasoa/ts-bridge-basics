@@ -10,8 +10,8 @@ interface HoldingLike {
     has(r:Rank):boolean,
     add(r:Rank):HoldingLike,
     remove(r:Rank):HoldingLike,
-    addSpots(n:number):HoldingLike,
-    removeSpots(n:number):HoldingLike
+    addSpots(n?:number):HoldingLike,
+    removeSpots(n?:number):HoldingLike
 }
 
 class Holding {
@@ -57,25 +57,21 @@ class Holding {
         throw new Error('Cannot remove rank '+rank.name +' from holding ' + this.asString())
     }
 
-    add(rank:Rank):HoldingLike {
+    add(rank:Rank):Holding {
         if (this.has(rank)) {
             throw new Error('Holding already has rank '+rank.name)
         }
         return new Holding(this.bits | rank.bit)
     }
 
-    addSpots(spots:number=1):HoldingLike {
+    addSpots(spots:number=1):XHolding {
         return new XHolding(this,spots)
     }
     
-    removeSpots(spots:number=1):HoldingLike {
+    removeSpots(spots:number=1):Holding {
         if (spots==0) {return this }
         throw new Error('No spots in holding ' +this.asString())
     }
-
-    addSpot():HoldingLike { return this.addSpots(1)}
-    removeSpot():HoldingLike { return this.removeSpots(1) }
-
 
     above(rank:Rank):Holding {
         return new Holding(this.bits & ~((rank.bit<<1)-1))
@@ -168,39 +164,34 @@ class XHolding {
         throw new Error('No spots, so no topSpot')
     }
 
-    remove(rank:Rank):HoldingLike {
-        if (this.has(rank)) {
+    remove(rank:Rank):XHolding {
+        if (this.nonSpots.has(rank)) {
             const h = this.nonSpots
-            if (this.isSpot(rank)) {
-                return new XHolding(h,this.spots-1)
-            } else {
-                return new XHolding(h.remove(rank),this.spots)
-            }
+            return new XHolding(h.remove(rank),this.spots)
         }
         throw new Error('Cannot remove rank '+rank.name +' from holding ' + this.asString())
     }
 
-    add(rank:Rank):HoldingLike {
+    add(rank:Rank):XHolding {
         if (this.has(rank)) {
             throw new Error('Rank '+ rank.name + ' already in ' + this.asString())
         }
         return new XHolding(this.nonSpots.add(rank) as Holding,this.spots)
     }
 
-    addSpots(spots:number=1):HoldingLike {
+    addSpots(spots:number=1):XHolding {
         return new XHolding(this.nonSpots,spots+this.spots)
     }
 
 
-    removeSpots(spots:number):HoldingLike {
+    removeSpots(spots:number=1):XHolding {
         if (spots > this.spots) {
             throw new RangeError('Cannot remove '+spots+' spot(s) from '+ this.asString())
         }
         return new XHolding(this.nonSpots,this.spots - spots)
     }
-    addSpot():HoldingLike { return this.addSpots(1)}
-    removeSpot():HoldingLike { return this.removeSpots(1) }
- }
+
+}
 
  type SuitHolding = {
     suit:Suit,

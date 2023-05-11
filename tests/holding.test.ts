@@ -53,10 +53,17 @@ test('XHolding basics', () => {
     expect(xh.isSpot(Deck.ranks.five)).toBeTruthy()
     expect(xh.isSpot(Deck.ranks.six)).toBeFalsy()
     expect(xh.remove(Deck.ranks.jack).asString()).toBe('AXXXX')
-    expect(xh.remove(Deck.ranks.five).asString()).toBe('AJXXX')
-    expect(xh.remove(Deck.ranks.two).asString()).toBe('AJXXX')
+    expect(xh.removeSpots().asString()).toBe('AJXXX')
+    expect(xh.removeSpots(4).asString()).toBe('AJ')
+    expect(xh.addSpots().asString()).toBe('AJXXXXX')
+    expect(xh.addSpots(3).asString()).toBe('AJXXXXXXX')
+    expect(() => xh.remove(Deck.ranks.five).asString()).toThrow()
+    expect(() => xh.remove(Deck.ranks.two).asString()).toThrow()
     expect(() => xh.remove(Deck.ranks.queen)).toThrow()
     expect(() => xh.remove(Deck.ranks.six)).toThrow()
+    expect(() => xh.removeSpots(5)).toThrow()
+    expect(() => xh.addSpots(6)).toThrow()
+
 })
 
 test('XHolding void', ()=> {
@@ -68,4 +75,32 @@ test('XHolding void', ()=> {
 
 test('XHolding constructor throws exception', ()=> {
     expect(() => new XHolding(Holding.forString('A5'),4)).toThrow()
+})
+
+test('Holding.add(rank)  Holding.remove(rank)', ()=> {
+    const r = Deck.ranks
+    const HS = Holding.forString
+    const h = HS('KJ105')
+    expect(h.add(r.ace)).toBe(HS('AKJ105'))
+    expect(h.remove(r.king)).toBe(HS('J105'))
+    expect(h.addSpots().asString()).toBe('KJ105X')
+    expect(h.addSpots(2).asString()).toBe('KJ105XX')
+    expect(h.removeSpots(0)).toBe(h)
+    expect(() => h.remove(r.ace)).toThrow()
+    expect(() => h.add(r.king)).toThrow()
+    expect(() => h.addSpots(4)).toThrow()
+    expect(() => h.removeSpots()).toThrow()
+    expect(() => h.removeSpots(2)).toThrow()
+
+})
+
+
+test('XHolding.add(rank)  XHolding.remove(rank)', ()=> {
+    const r = Deck.ranks
+    const HS = (hs,spots) => new XHolding(Holding.forString(hs),spots)
+    const h = HS('KJ107',3)
+    expect(h.add(r.ace).asString()).toBe('AKJ107XXX')
+    expect(h.remove(r.king).asString()).toBe('J107XXX')
+    expect(() => h.remove(r.ace)).toThrow()
+    expect(() => h.add(r.king)).toThrow()
 })

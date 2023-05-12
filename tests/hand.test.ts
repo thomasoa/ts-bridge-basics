@@ -44,3 +44,20 @@ test('partial hand with X holdings', ()=> {
     
 })
 
+test('Partial hand add and remove methods', ()=> {
+    const s = Deck.suits
+    const r = Deck.ranks
+    const hand = new PartialHand()
+    expect(hand.length).toBe(0)
+    hand.add(r.jack.of(s.spades))
+    hand.add(r.ten.of(s.diamonds))
+    expect(hand.length).toBe(2)
+    expect(hand.asString()).toBe('SJ D10')
+    expect(() => hand.add(r.jack.of(s.spades))).toThrow()
+    expect(() => hand.remove(r.ace.of(s.spades))).toThrow()
+    hand.addSpots(s.clubs,3)
+    expect(hand.asString()).toBe('SJ D10 CXXX')
+    hand.remove(r.jack.of(s.spades))
+    expect(hand.asString()).toBe('S- D10 CXXX')
+
+})

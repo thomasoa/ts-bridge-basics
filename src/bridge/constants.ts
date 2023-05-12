@@ -71,9 +71,9 @@ class Seat {
         return tuple[this.order]
     }
 
-    for<T>(record: PartialSeatRecord<T>):T {
-        return record[this.name]
-    }
+    for<T>(record: Readonly<PartialSeatRecord<T>>):T { return record[this.name] }
+    set<T>(aRec:PartialSeatRecord<T>,value: T):void { aRec[this.name] = value }
+    unset<T>(aRec:PartialSeatRecord<T>):void { delete aRec[this.name]}
 
     shift(positive:number):Seat {
         return Seat.AllSeats[(this.order + positive)%4]
@@ -146,7 +146,10 @@ class Suit {
     }
 
     select<T>(aTuple:SuitTuple<T>):T { return aTuple[this.order] }
+    
     for<T>(aRec:PartialSuitRecord<T>):T { return aRec[this.name] }
+    set<T>(aRec:SuitRecord<T>,value: T):void { aRec[this.name] = value }
+    unset<T>(aRec:PartialSuitRecord<T>):void { delete aRec[this.name]}
 }
 
 class Rank {

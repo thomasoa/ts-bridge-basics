@@ -56,6 +56,8 @@ test('SeatRecord accessors', ()=>{
     expect(Seats.south.for(record)).toBe(2)
     expect(Seats.east.for(record)).toBe(3)
     expect(Seats.west.for(record)).toBe(4)
+    Seats.west.set(record,6)
+    expect(Seats.west.for(record)).toBe(6)
 })
 
 test('PartialSeatRecord accessors', ()=>{
@@ -64,5 +66,9 @@ test('PartialSeatRecord accessors', ()=>{
     expect(Seats.south.for(pRec)).toBeUndefined()
     expect(Seats.east.for(pRec)).toBe('b')
     expect(Seats.west.for(pRec)).toBeUndefined()
+    Seats.east.unset(pRec)
+    expect(Seats.east.for(pRec)).toBeUndefined()
+    Seats.west.set(pRec,'c')
+    expect(Seats.west.for(pRec)).toBe('c')
 
 }) 

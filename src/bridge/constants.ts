@@ -426,7 +426,7 @@ Object.freeze(Deck)
 
 export {
     Deck, Seats, /* constants */
-    SeatName, SeatRecord, SeatTuple,
-    SuitName, SuitRecord, SuitTuple,
+    SeatName, SeatRecord, PartialSeatRecord, SeatTuple,
+    SuitName, SuitRecord, SuitTuple, PartialSuitRecord,
     Suit, Rank, Card, Seat /* types */
 }

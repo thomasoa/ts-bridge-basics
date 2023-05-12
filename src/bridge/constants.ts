@@ -39,18 +39,21 @@ function f<T>(obj: T): T {
 
 type SeatName = 'north'|'east'|'south'|'west'
 type SeatRecord<T> = Record<SeatName,T>
+type PartialSeatRecord<T> = Partial<SeatRecord<T>>
+
 type SeatTuple<T> =   readonly [T,T,T,T]
 
 type SuitName = 'spades'|'hearts'|'diamonds'|'clubs'
 type SuitRecord<T> = Record<SeatName,T>
+type PartialSuitRecord<T> = Partial<SuitRecord<T>>
 type SuitTuple<T> =  readonly [T,T,T,T]
 
 class Seat {
     private static readonly AllSeats = new Array<Seat>(4)
-    readonly name: string;
+    readonly name: SeatName;
     readonly letter: string;
     readonly order: number
-    constructor(name: string,letter: string,order: number) {
+    constructor(name: SeatName,letter: string,order: number) {
         if (Seat.AllSeats[order]) {
             return Seat.AllSeats[order]
         }
@@ -112,7 +115,7 @@ const Seats = {
 Object.freeze(Seats)
 
 type Suit = {
-    name: string;
+    name: SuitName;
     singular: string,
     letter: string;
     symbol: string;

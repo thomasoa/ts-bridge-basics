@@ -1,3 +1,4 @@
+import { EnumBooleanMember } from "@babel/types"
 import {Deck, Rank, Suit} from "./constants"
 
 interface HoldingLike {
@@ -12,7 +13,9 @@ interface HoldingLike {
     add(r:Rank):HoldingLike,
     remove(r:Rank):HoldingLike,
     addSpots(n?:number):HoldingLike,
-    removeSpots(n?:number):HoldingLike
+    removeSpots(n?:number):HoldingLike,
+    isDisjoint(h:HoldingLike):boolean,
+    union(h:HoldingLike):HoldingLike
 }
 
 class Holding {
@@ -42,7 +45,16 @@ class Holding {
     isVoid():boolean {
             return this.length == 0
     }
+
+    isDisjoint(h:HoldingLike):boolean {
+        return !(this.bits & h.holding.bits)
+    }
         
+    union(h:HoldingLike):HoldingLike {
+        const newH = new Holding(h.nonSpots.bits | this.bits)
+        return newH.addSpots(h.spots)
+    }
+
     toString():string {
             return this.asString(' ')
     }
@@ -65,8 +77,11 @@ class Holding {
         return new Holding(this.bits | rank.bit)
     }
 
-    addSpots(spots:number=1):XHolding {
-        return new XHolding(this,spots)
+    addSpots(spots:number=1):HoldingLike {
+        if (spots>0) {
+            return new XHolding(this,spots)
+        }
+        return this
     }
     
     removeSpots(spots:number=1):Holding {
@@ -154,6 +169,23 @@ class XHolding {
 
     has(rank:Rank):boolean {
         return this.holding.has(rank)
+    }
+
+    isDisjoint(h:HoldingLike):boolean {
+        if (this.nonSpots.bits & h.nonSpots.bits) {
+            console.log('Nonspots are not disjoint for ' + h.asString() + ' ' + this.asString())
+            return false
+        }
+        const combined = this.nonSpots.bits | h.nonSpots.bits
+        const spotBits = (1<<(this.spots + h.spots))-1
+        console.log('Bits ' +(combined&spotBits) + ' ' + spotBits + ' for ' + h.asString() + ' ' + this.asString())
+        
+        return !(combined&spotBits)
+    }
+        
+    union(h:HoldingLike):HoldingLike {
+        const newH = this.nonSpots.union(h)
+        return newH.addSpots(this.spots)
     }
 
     isSpot(rank:Rank):boolean {

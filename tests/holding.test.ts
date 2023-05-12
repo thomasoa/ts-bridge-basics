@@ -119,3 +119,24 @@ test('parseHolding', ()=> {
 
     expect(() => parseHolding('AJX2')).toThrow()
 })
+
+test('Holding.disjoint and Holding.union', ()=>{
+    const hAJ5 = Holding.forString('AJ5')
+    const hKJ6 = Holding.forString('KJ6')
+    const hK107 = Holding.forString('K107')
+    expect(hAJ5.isDisjoint(hKJ6)).toBeFalsy()
+    expect(hAJ5.isDisjoint(hK107)).toBeTruthy()
+    expect(hAJ5.union(hKJ6).asString()).toBe('AKJ65')
+
+    const Q97xxxx = parseHolding('Q97xxxx')
+    const x = parseHolding('x')
+    const xx = parseHolding('xx')
+    expect(hAJ5.isDisjoint(Q97xxxx)).toBeFalsy()
+    expect(hKJ6.isDisjoint(Q97xxxx)).toBeTruthy()
+    expect(Q97xxxx.isDisjoint(hKJ6)).toBeTruthy()
+    expect(Q97xxxx.isDisjoint(hK107)).toBeFalsy()
+    expect(Q97xxxx.isDisjoint(x)).toBeTruthy()
+    expect(Q97xxxx.isDisjoint(xx)).toBeFalsy()
+
+    expect(Q97xxxx.union(hKJ6).asString()).toBe('KQJ976XXXX')
+})

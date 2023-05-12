@@ -7,6 +7,7 @@ interface HoldingLike {
     spots: number
     ranks: readonly Rank[]
     isSpot(r:Rank):boolean,
+    nonSpots:Holding,
     has(r:Rank):boolean,
     add(r:Rank):HoldingLike,
     remove(r:Rank):HoldingLike,
@@ -73,6 +74,8 @@ class Holding {
         throw new Error('No spots in holding ' +this.asString())
     }
 
+    get nonSpots():Holding { return this }
+
     above(rank:Rank):Holding {
         return new Holding(this.bits & ~((rank.bit<<1)-1))
     }
@@ -113,7 +116,7 @@ class XHolding {
     readonly holding:Holding
     readonly spots:number
     readonly spotBits:number
-    private nonSpots: Holding
+    readonly nonSpots: Holding
 
     constructor(topCards:Holding, spots:number) {
         const spotBits = (1<<spots) -1

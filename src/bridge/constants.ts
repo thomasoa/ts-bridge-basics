@@ -44,7 +44,7 @@ type PartialSeatRecord<T> = Partial<SeatRecord<T>>
 type SeatTuple<T> =   readonly [T,T,T,T]
 
 type SuitName = 'spades'|'hearts'|'diamonds'|'clubs'
-type SuitRecord<T> = Record<SeatName,T>
+type SuitRecord<T> = Record<SuitName,T>
 type PartialSuitRecord<T> = Partial<SuitRecord<T>>
 type SuitTuple<T> =  readonly [T,T,T,T]
 
@@ -427,6 +427,6 @@ Object.freeze(Deck)
 export {
     Deck, Seats, /* constants */
     SeatName, SeatRecord, PartialSeatRecord, SeatTuple,
-    SuitName, SuitRecord, SuitTuple, PartialSuitRecord,
+    SuitName, SuitRecord,  PartialSuitRecord, SuitTuple,
     Suit, Rank, Card, Seat /* types */
 }

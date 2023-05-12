@@ -1,4 +1,4 @@
-import { Seats, Seat, SeatTuple } from "../src/bridge/constants"
+import { Seats, Seat, SeatTuple, SeatRecord, PartialSeatRecord } from "../src/bridge/constants"
 
 test("Ensure the size is right", () => {
     expect(Seats.all.length).toBe(4)
@@ -19,7 +19,7 @@ test("Ensure named seats are correct", () => {
 
 test('Objects should be frozen', ()=> {
     expect(() => { Seats.all = [] }).toThrow()
-    expect(() => { Seats.north = new Seat('foo', 'f', 0)}).toThrow()
+    expect(() => { Seats.north = new Seat('north', 'f', 0)}).toThrow()
 })
 
 
@@ -49,3 +49,20 @@ test('Seat.select from SeatTuple', ()=> {
     expect(Seats.south.select(st)).toBe('c')
     expect(Seats.west.select(st)).toBe('d')
 })
+
+test('SeatRecord accessors', ()=>{
+    const record:SeatRecord<number> = {north: 1, south: 2, east: 3, west: 4}
+    expect(Seats.north.for(record)).toBe(1)
+    expect(Seats.south.for(record)).toBe(2)
+    expect(Seats.east.for(record)).toBe(3)
+    expect(Seats.west.for(record)).toBe(4)
+})
+
+test('PartialSeatRecord accessors', ()=>{
+    const pRec:PartialSeatRecord<string> = {north: 'a', east: 'b'}
+    expect(Seats.north.for(pRec)).toBe('a')
+    expect(Seats.south.for(pRec)).toBeUndefined()
+    expect(Seats.east.for(pRec)).toBe('b')
+    expect(Seats.west.for(pRec)).toBeUndefined()
+
+}) 

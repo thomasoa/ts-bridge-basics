@@ -37,7 +37,12 @@ function f<T>(obj: T): T {
     return obj
 }
 
+type SeatName = 'north'|'east'|'south'|'west'
+type SeatRecord<T> = Record<SeatName,T>
 type SeatTuple<T> =   readonly [T,T,T,T]
+
+type SuitName = 'spades'|'hearts'|'diamonds'|'clubs'
+type SuitRecord<T> = Record<SeatName,T>
 type SuitTuple<T> =  readonly [T,T,T,T]
 
 class Seat {
@@ -418,5 +423,7 @@ Object.freeze(Deck)
 
 export {
     Deck, Seats, /* constants */
-    Suit, Rank, Card, Seat, SeatTuple, SuitTuple /* types */
+    SeatName, SeatRecord, SeatTuple,
+    SuitName, SuitRecord, SuitTuple,
+    Suit, Rank, Card, Seat /* types */
 }

@@ -21,6 +21,7 @@ test("AK2 Holding", () => {
    const holding = Holding.fromRanks([r.ace, r.king, r.five, r.two])
    const holding2 = Holding.forString('AK52')
    expect(holding).toBe(holding2)
+   expect(holding.nonSpots).toBe(holding)
    expect(holding.length).toBe(4)
    expect(holding.isVoid()).toBeFalsy()
    expect(holding.toString()).toBe("A K 5 2")

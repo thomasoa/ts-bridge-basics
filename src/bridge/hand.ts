@@ -21,18 +21,27 @@ class PartialHand {
     }
 
     add(card:Card):void {
-        this.holdings[card.suit.name] = this.safeHolding(card.suit).add(card.rank)
+        card.suit.set(this.holdings, this.safeHolding(card.suit).add(card.rank))
         this.length++
     }
 
     remove(card:Card):void {
-        this.holdings[card.suit.name] = this.safeHolding(card.suit).remove(card.rank)
+        card.suit.set(this.holdings, this.safeHolding(card.suit).remove(card.rank))
         this.length--
     }
 
     addSpots(suit:Suit,count:number=1) {
-        this.holdings[suit.name] = this.safeHolding(suit).addSpots(count)
+        suit.set(this.holdings, this.safeHolding(suit).addSpots(count))
         this.length += count
+    }
+
+    addHolding(suit:Suit,holding:HoldingLike):void {
+        const current = this.safeHolding(suit)
+        if (current.isDisjoint(holding)) {
+            suit.set(this.holdings, current.union(holding))
+        } else {
+            throw new Error('Holdding ' + this.asString() + ' is not disjoint fron ' + holding.asString())
+        }
     }
 
     holding(suit:Suit):OptionalHolding { 

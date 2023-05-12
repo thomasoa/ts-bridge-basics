@@ -71,6 +71,10 @@ class Seat {
         return tuple[this.order]
     }
 
+    for<T>(record: PartialSeatRecord<T>):T {
+        return record[this.name]
+    }
+
     shift(positive:number):Seat {
         return Seat.AllSeats[(this.order + positive)%4]
     }
@@ -114,7 +118,7 @@ const Seats = {
 
 Object.freeze(Seats)
 
-type Suit = {
+type SuitBase = {
     name: SuitName;
     singular: string,
     letter: string;
@@ -123,7 +127,26 @@ type Suit = {
     type: "major" | "minor",
     order: number,
     summand: number,
-    select: <T>(tuple:SuitTuple<T>) => T
+}
+
+class Suit {
+    readonly name: SuitName
+    readonly singular: string
+    readonly letter: string
+    readonly symbol: string;
+    readonly color: "red"|"black"
+    readonly type: "major" | "minor"
+    readonly order: number
+    readonly summand: number
+
+    constructor(suit:SuitBase) {
+        for (let key in suit) {
+            this[key] = suit[key]
+        } 
+    }
+
+    select<T>(aTuple:SuitTuple<T>):T { return aTuple[this.order] }
+    for<T>(aRec:PartialSuitRecord<T>):T { return aRec[this.name] }
 }
 
 class Rank {
@@ -133,6 +156,7 @@ class Rank {
     bit: number
     letter: string
     summand: number
+    
     constructor(brief: string, name:string, order: number, letter: string | undefined = undefined) {
         this.brief = brief
         this.name = name
@@ -144,54 +168,50 @@ class Rank {
     }
 }
 
-function suitSelector(order:number): <T>(t:SuitTuple<T>) => T {
-    return <T>(tuple:SuitTuple<T>):T => { return tuple[order]}
-}
-
-const Spades: Suit = f({ 
+const Spades = new Suit({ 
     name: 'spades', 
     singular: 'spade', 
     letter: 'S', 
     symbol: '\U+2660', 
     color: "black",
     type: "major",
-    select:suitSelector(0), 
     order: 0, 
     summand: 0 
 })
-const Hearts: Suit = f({ 
+
+const Hearts = new Suit({ 
     name: 'hearts', 
     singular: 'heart', 
     letter: 'H', 
     symbol: '\U+2665', 
     color: "red",
     type: "major",
-    select:suitSelector(1),
     order: 1, 
     summand: 13 * 1 
 })
-const Diamonds: Suit = f({ 
+
+const Diamonds = new Suit({ 
     name: 'diamonds', 
     singular: 'diamond', 
     letter: 'D', 
     symbol: '\U+2666', 
     color:  "red",
     type: "minor",
-    select:suitSelector(2), 
     order: 2, 
     summand: 13 * 2 
 })
-const Clubs: Suit = f({ 
+
+const Clubs = new Suit({ 
     name: 'clubs', 
     singular: 'club', 
     letter: 'C', 
     symbol: '\U+2663', 
     color: "black",
     type: "minor",
-    select:suitSelector(3), 
     order: 3, 
     summand: 13 * 3 
 })
+
 const AllSuits: readonly Suit[] = [Spades, Hearts, Diamonds, Clubs]
 Object.freeze(AllSuits)
 

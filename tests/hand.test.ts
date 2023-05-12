@@ -6,7 +6,7 @@ test('partial hand each holding', ()=> {
     const R = Deck.ranks
     const S = Deck.suits
     const h = Holding.forString
-    const partial = new PartialHand([h('A32'),undefined,h('KJ10'),undefined])
+    const partial = new PartialHand({spades:h('A32'),diamonds: h('KJ10')})
     expect(partial.asString()).toBe('SA32 DKJ10')
     expect(partial.length).toBe(6)
     expect(partial.has(R.ace.of(S.spades))).toBeTruthy()
@@ -18,8 +18,8 @@ test('partial hand each holding', ()=> {
 test('partial hand with X holdings', ()=> {
     const R = Deck.ranks
     const S = Deck.suits
-    const h = Holding.forString
-    const partial = new PartialHand([new XHolding(h('A'),2),undefined,new XHolding(h('KJ10'),3),undefined])
+    const h = (str:string,spots:number) => new XHolding(Holding.forString(str),spots)
+    const partial = new PartialHand({spades:h('A',2),diamonds: h('KJ10',3)})
     expect(partial.asString()).toBe('SAXX DKJ10XXX')
     expect(partial.length).toBe(9)
     expect(partial.has(R.ace.of(S.spades))).toBeTruthy()

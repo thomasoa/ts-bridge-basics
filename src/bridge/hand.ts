@@ -1,17 +1,15 @@
-import {Deck, Card, Rank, Suit} from './constants'
+import {Deck, Card, Rank, Suit, PartialSuitRecord, SuitTuple} from './constants'
 import {Holding, HoldingLike, SuitHolding} from './holding'
 
 type OptionalHolding = HoldingLike | undefined
 
-type SuitTuple<T> = readonly [T,T,T,T]
-
 class PartialHand {
     static readonly voidH = new Holding(0)
-     holdings: SuitTuple<OptionalHolding>
+     holdings: PartialSuitRecord<HoldingLike>
      length: number
      spots: number
     
-    constructor(holdings: SuitTuple<OptionalHolding>) {
+    constructor(holdings: PartialSuitRecord<HoldingLike>={}) {
         this.holdings = holdings
         let length = 0, spots = 0
         this.eachHolding((sh:SuitHolding) => { 
@@ -22,8 +20,20 @@ class PartialHand {
         this.spots = spots
     }
 
+    add(card:Card):void {
+        this[card.suit.name] = this.safeHolding(card.suit).add(card.rank)
+    }
+
+    remove(card:Card):void {
+        this[card.suit.name] = this.safeHolding(card.suit).remove(card.rank)
+    }
+
+    addSpots(suit:Suit,count:number=1) {
+        this[suit.name] = this.safeHolding(suit).addSpots(count)
+    }
+
     holding(suit:Suit):OptionalHolding { 
-        return suit.select(this.holdings)
+        return this.holdings[suit.name]
     }
 
     safeHolding(suit:Suit):HoldingLike { 
@@ -40,16 +50,14 @@ class PartialHand {
 
     eachHolding(callback: (sh:SuitHolding) => void):void {
         Deck.suits.all.forEach((suit:Suit) => {
-            const holding: OptionalHolding = this.holdings[suit.order]
+            const holding: OptionalHolding = this.holding(suit)
             if (holding) {
                 callback({suit: suit,holding: holding})
-            }
-        
+            }        
         })
     }
 
     eachCard(callback:(card:Card,isSpot:boolean) => void):void {
-        const _this = this
         this.eachHolding((sh:SuitHolding) => {
             sh.holding.ranks.forEach((rank:Rank) => callback(rank.of(sh.suit),sh.holding.isSpot(rank)))
         })

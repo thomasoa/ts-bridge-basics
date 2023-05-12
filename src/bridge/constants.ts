@@ -146,9 +146,9 @@ class Suit {
     }
 
     select<T>(aTuple:SuitTuple<T>):T { return aTuple[this.order] }
-    
+
     for<T>(aRec:PartialSuitRecord<T>):T { return aRec[this.name] }
-    set<T>(aRec:SuitRecord<T>,value: T):void { aRec[this.name] = value }
+    set<T>(aRec:PartialSuitRecord<T>,value: T):void { aRec[this.name] = value }
     unset<T>(aRec:PartialSuitRecord<T>):void { delete aRec[this.name]}
 }
 

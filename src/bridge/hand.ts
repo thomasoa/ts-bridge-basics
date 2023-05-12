@@ -33,7 +33,7 @@ class PartialHand {
     }
 
     holding(suit:Suit):OptionalHolding { 
-        return this.holdings[suit.name]
+        return suit.for(this.holdings)
     }
 
     safeHolding(suit:Suit):HoldingLike { 

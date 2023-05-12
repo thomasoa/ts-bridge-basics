@@ -1,4 +1,4 @@
-import {Holding, XHolding} from "../src/bridge/holding"
+import {Holding, XHolding, parseHolding} from "../src/bridge/holding"
 import { Deck, Rank} from "../src/bridge/constants"
 
 test("Holding void", () => {
@@ -104,4 +104,18 @@ test('XHolding.add(rank)  XHolding.remove(rank)', ()=> {
     expect(h.remove(r.king).asString()).toBe('J107XXX')
     expect(() => h.remove(r.ace)).toThrow()
     expect(() => h.add(r.king)).toThrow()
+})
+
+test('parseHolding', ()=> {
+    const hAJ6x = parseHolding(' Aj6 x')
+    expect(hAJ6x.asString()).toBe('AJ6X')
+
+    expect(parseHolding('')).toBe(new Holding(0))
+    expect(parseHolding(' - ')).toBe(new Holding(0))
+    expect(hAJ6x).toBeInstanceOf(XHolding)
+
+    const hK10543 = parseHolding(' kt 543')
+    expect(hK10543).toBeInstanceOf(Holding)
+
+    expect(() => parseHolding('AJX2')).toThrow()
 })

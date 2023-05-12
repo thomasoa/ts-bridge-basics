@@ -196,9 +196,28 @@ class XHolding {
 
 }
 
+const parseRE = /^([^X]*)(X*)$/
+
+function parseHolding(start:string):HoldingLike {
+    const str = start.replace(/\s/g, '').toUpperCase()
+    if (str == '-') {
+        return new Holding(0)
+    }
+    const match = str.match(parseRE)
+    if (match) {
+        const holding = Holding.forString(match[1])
+        const spots = match[2].length
+        if (spots>0) {
+            return new XHolding(holding,spots)
+        }
+        return holding
+    }
+    throw new Error('Improper holding string "' + start + '" as "' + str +'"')
+}
+
  type SuitHolding = {
     suit:Suit,
     holding: HoldingLike
  }
 
-export {Holding, XHolding, Deck, Rank, HoldingLike, SuitHolding}
+export {Holding, XHolding, Deck, Rank, HoldingLike, SuitHolding, parseHolding}

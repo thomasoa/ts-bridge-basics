@@ -1,4 +1,4 @@
-import {Deck, Card, Rank, Suit, PartialSuitRecord, SuitTuple} from './constants'
+import {Deck, Card, Rank, Suit, PartialSuitRecord, SuitRecord, SuitTuple} from './constants'
 import {Holding, HoldingLike, SuitHolding} from './holding'
 
 type OptionalHolding = HoldingLike | undefined
@@ -10,7 +10,7 @@ class PartialHand {
      spots: number
     
     constructor(holdings: PartialSuitRecord<HoldingLike>={}) {
-        this.holdings = holdings
+        this.holdings = {...holdings} // Copy
         let length = 0, spots = 0
         this.eachHolding((sh:SuitHolding) => { 
             length += sh.holding.length ; 
@@ -21,15 +21,18 @@ class PartialHand {
     }
 
     add(card:Card):void {
-        this[card.suit.name] = this.safeHolding(card.suit).add(card.rank)
+        this.holdings[card.suit.name] = this.safeHolding(card.suit).add(card.rank)
+        this.length++
     }
 
     remove(card:Card):void {
-        this[card.suit.name] = this.safeHolding(card.suit).remove(card.rank)
+        this.holdings[card.suit.name] = this.safeHolding(card.suit).remove(card.rank)
+        this.length--
     }
 
     addSpots(suit:Suit,count:number=1) {
-        this[suit.name] = this.safeHolding(suit).addSpots(count)
+        this.holdings[suit.name] = this.safeHolding(suit).addSpots(count)
+        this.length += count
     }
 
     holding(suit:Suit):OptionalHolding { 
@@ -72,22 +75,4 @@ class PartialHand {
     }   
 }
 
-class PartialHandBuilder {
-    bits: number[] = new Array<number>(4)
-    length: number = 0
-
-    constructor(suits:readonly Suit[]=Deck.suits.all) {
-        suits.forEach((suit) => this.bits[suit.order] = 0)
-    }
-
-    addCard(card:Card):void {
-        if (! this.bits[card.suit.order]) {
-            this.bits[card.suit.order] = card.rank.bit
-        } else {
-            const bits = this.bits[card.suit.order]
-        }
-        throw new Error('not implemented')
-    }
-}
-
-export {PartialHand, Suit, SuitTuple}
+export {PartialHand, Suit, SuitRecord, PartialSuitRecord}

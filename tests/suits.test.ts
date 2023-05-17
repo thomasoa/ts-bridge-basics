@@ -11,3 +11,10 @@ test('Seat.select from SeatTuple', ()=> {
     expect(Deck.suits.diamonds.select(st)).toBe('c')
     expect(Deck.suits.clubs.select(st)).toBe('d')
 })
+
+test('toTuple', () => {
+    var tuple:SuitTuple<string> = ['a','b','c','d']
+    var record = {spades: 1, clubs: 2, hearts: 3, diamonds:4}
+    expect(Deck.suits.toTuple(tuple)).toBe(tuple)
+    expect(Deck.suits.toTuple(record)).toStrictEqual([1,3,4,2])
+})

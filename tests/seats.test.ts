@@ -72,3 +72,10 @@ test('PartialSeatRecord accessors', ()=>{
     expect(Seats.west.for(pRec)).toBe('c')
 
 }) 
+
+test('toTuple', () => {
+    var tuple:SeatTuple<string> = ['a','b','c','d']
+    var record = {north: 1, south: 2, east: 3, west:4}
+    expect(Seats.toTuple(tuple)).toBe(tuple)
+    expect(Seats.toTuple(record)).toStrictEqual([1,3,2,4])
+})

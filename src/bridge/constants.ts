@@ -113,7 +113,8 @@ const Seats = {
     all: AllSeats,
     each: AllSeats.forEach.bind(AllSeats),
     map: AllSeats.map.bind(AllSeats),
-    byText: SeatNameMap.get.bind(SeatNameMap)
+    byText: SeatNameMap.get.bind(SeatNameMap),
+    toTuple: toSeatTuple
 }
 
 Object.freeze(Seats)
@@ -225,6 +226,22 @@ AllSuits.forEach((suit) => {
     SuitNameMap.set(suit.singular,suit)
 })
 
+function toSuitTuple<T>(arg:SuitRecord<T>|SuitTuple<T>):SuitTuple<T> {
+    if (arg instanceof Array) {
+        return arg as SuitTuple<T>
+    }
+    const argRec = arg as SuitRecord<T>
+    return [argRec.spades,argRec.hearts, argRec.diamonds, argRec.clubs]
+}
+
+function toSeatTuple<T>(arg:SeatRecord<T>|SeatTuple<T>):SeatTuple<T> {
+    if (arg instanceof Array) {
+        return arg as SeatTuple<T>
+    }
+    const argRec = arg as SeatRecord<T>
+    return [argRec.north,argRec.east, argRec.south, argRec.west]
+}
+
 const Suits = {
     spades: Spades,
     hearts: Hearts,
@@ -235,7 +252,8 @@ const Suits = {
     minors: [Diamonds, Clubs] as readonly  Suit[],
     each: AllSuits.forEach.bind(AllSuits),
     map: AllSuits.map.bind(AllSuits),
-    byText: SuitNameMap.get.bind(SuitNameMap)
+    byText: SuitNameMap.get.bind(SuitNameMap),
+    toTuple: toSuitTuple
 }
 
 Suits.each(Object.freeze)

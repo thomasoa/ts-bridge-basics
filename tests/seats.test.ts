@@ -42,12 +42,12 @@ test("Ensure lho, partner, rho are correct", () => {
 
 }) 
 
-test('Seat.select from SeatTuple', ()=> {
+test('Seat.value from SeatTuple', ()=> {
     const st:SeatTuple<String> = ['a','b','c','d']
-    expect(Seats.north.select(st)).toBe('a')
-    expect(Seats.east.select(st)).toBe('b')
-    expect(Seats.south.select(st)).toBe('c')
-    expect(Seats.west.select(st)).toBe('d')
+    expect(Seats.north.value(st)).toBe('a')
+    expect(Seats.east.value(st)).toBe('b')
+    expect(Seats.south.value(st)).toBe('c')
+    expect(Seats.west.value(st)).toBe('d')
 })
 
 test('SeatRecord accessors', ()=>{

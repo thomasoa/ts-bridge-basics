@@ -96,7 +96,7 @@ class FullHand {
     }
 
     suit(suit:Suit):Holding {
-        return suit.select(this.holdings)
+        return suit.value(this.holdings)
     }
 
     eachSuit(callback: (h:Holding,suit:Suit) => void):void {

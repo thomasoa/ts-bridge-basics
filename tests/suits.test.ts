@@ -6,10 +6,10 @@ test("Ensure there are four suits", () => {
 
 test('Seat.select from SeatTuple', ()=> {
     const st:SuitTuple<String> = ['a','b','c','d']
-    expect(Deck.suits.spades.select(st)).toBe('a')
-    expect(Deck.suits.hearts.select(st)).toBe('b')
-    expect(Deck.suits.diamonds.select(st)).toBe('c')
-    expect(Deck.suits.clubs.select(st)).toBe('d')
+    expect(Deck.suits.spades.value(st)).toBe('a')
+    expect(Deck.suits.hearts.value(st)).toBe('b')
+    expect(Deck.suits.diamonds.value(st)).toBe('c')
+    expect(Deck.suits.clubs.value(st)).toBe('d')
 })
 
 test('toTuple', () => {

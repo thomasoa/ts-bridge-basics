@@ -41,12 +41,12 @@ type SeatName = 'north'|'east'|'south'|'west'
 type SeatRecord<T> = Record<SeatName,T>
 type PartialSeatRecord<T> = Partial<SeatRecord<T>>
 
-type SeatTuple<T> =   readonly [T,T,T,T]
+type SeatTuple<T> =  [T,T,T,T]
 
 type SuitName = 'spades'|'hearts'|'diamonds'|'clubs'
 type SuitRecord<T> = Record<SuitName,T>
 type PartialSuitRecord<T> = Partial<SuitRecord<T>>
-type SuitTuple<T> =  readonly [T,T,T,T]
+type SuitTuple<T> =  [T,T,T,T]
 
 class Seat {
     private static readonly AllSeats = new Array<Seat>(4)
@@ -67,8 +67,12 @@ class Seat {
         return Seat.AllSeats
     }
 
-    select<T>(tuple:SeatTuple<T>):T {
-        return tuple[this.order]
+    value<T>(tuple:SeatTuple<T>,value?:T|undefined):T {
+        const oldValue = tuple[this.order]
+        if (value) {
+            tuple[this.order] = value
+        }
+        return oldValue
     }
 
     for<T>(record: Readonly<PartialSeatRecord<T>>):T { return record[this.name] }
@@ -146,7 +150,13 @@ class Suit {
         } 
     }
 
-    select<T>(aTuple:SuitTuple<T>):T { return aTuple[this.order] }
+    value<T>(aTuple:SuitTuple<T>,value?:T):T { 
+        const origValue = aTuple[this.order] 
+        if (value) {
+            aTuple[this.order] = value
+        }
+        return origValue
+    }
 
     for<T>(aRec:PartialSuitRecord<T>):T { return aRec[this.name] }
     set<T>(aRec:PartialSuitRecord<T>,value: T):void { aRec[this.name] = value }

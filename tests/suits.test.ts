@@ -18,3 +18,9 @@ test('toTuple', () => {
     expect(Deck.suits.toTuple(tuple)).toBe(tuple)
     expect(Deck.suits.toTuple(record)).toStrictEqual([1,3,4,2])
 })
+
+test('suit record unset', ()=>{
+    var record = {spades: 1, hearts: 2, clubs: 3}
+    Deck.suits.hearts.unset(record)
+    expect(record).toEqual({spades:1, clubs: 3})
+})

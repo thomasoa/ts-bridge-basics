@@ -98,6 +98,15 @@ class FullHand {
     suit(suit:Suit):Holding {
         return suit.value(this.holdings)
     }
+    
+    has(card:Card):boolean {
+        return this.suit(card.suit).has(card.rank)
+    }
+
+    get spades():Holding { return this.suit(Deck.suits.spades) }
+    get hearts():Holding { return this.suit(Deck.suits.hearts) }
+    get diamonds():Holding { return this.suit(Deck.suits.diamonds) }
+    get clubs():Holding { return this.suit(Deck.suits.clubs) }
 
     eachSuit(callback: (h:Holding,suit:Suit) => void):void {
         Deck.suits.all.forEach((suit:Suit) => {

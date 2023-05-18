@@ -8,6 +8,10 @@ test('Simple deal constructor', ()=> {
     expect(deal.hand(Seats.east).asString()).toBe('S- HAKQJ1098765432 D- C-')
     expect(deal.hand(Seats.south).asString()).toBe('S- H- DAKQJ1098765432 C-')
     expect(deal.hand(Seats.west).asString()).toBe('S- H- D- CAKQJ1098765432')
+    expect(deal.north).toBe(deal.hand(Seats.north))
+    expect(deal.east).toBe(deal.hand(Seats.east))
+    expect(deal.south).toBe(deal.hand(Seats.south))
+    expect(deal.west).toBe(deal.hand(Seats.west))
 }) 
 
 test('Simple FullDeal failures', ()=> {

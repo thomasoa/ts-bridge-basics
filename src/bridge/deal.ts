@@ -1,4 +1,4 @@
-import {SeatTuple, SuitTuple, Card, Deck, Seat} from './constants'
+import {SeatTuple, SuitTuple, Card, Deck, Seat, Seats} from './constants'
 import {FullHand} from './hand'
 import {Holding} from './holding'
 
@@ -28,6 +28,11 @@ class FullDeal {
     hand(seat:Seat):FullHand {
         return seat.value(this.hands)
     }
+
+    get north():FullHand { return this.hand(Seats.north)}
+    get east():FullHand { return this.hand(Seats.east)}
+    get south():FullHand { return this.hand(Seats.south)}
+    get west():FullHand { return this.hand(Seats.west)}
 }
 
 export {FullDeal}

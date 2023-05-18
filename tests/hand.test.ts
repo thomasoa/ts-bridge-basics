@@ -80,6 +80,14 @@ test('FullHand constructor', () => {
     const hs = Holding.forString
     const hand = new FullHand({spades: hs('AJ1032'), hearts: hs('Q987'), diamonds: hs('5432'), clubs: hs('-')})
     expect(hand.asString()).toBe('SAJ1032 HQ987 D5432 C-')
+    expect(hand.spades.asString()).toBe('AJ1032')
+    expect(hand.hearts.asString()).toBe('Q987')
+    expect(hand.diamonds.asString()).toBe('5432')
+    expect(hand.clubs.asString()).toBe('-')
+    
+    expect(hand.has(Deck.ranks.ace.of(Deck.suits.spades))).toBeTruthy()
+    expect(hand.has(Deck.ranks.ace.of(Deck.suits.hearts))).toBeFalsy()
+
     expect(hand.suit(Deck.suits.spades).asString()).toBe('AJ1032')
     const cards:string[] = []
     hand.eachCard((card:Card) => cards.push(card.short))

@@ -48,6 +48,8 @@ test('Seat.value from SeatTuple', ()=> {
     expect(Seats.east.value(st)).toBe('b')
     expect(Seats.south.value(st)).toBe('c')
     expect(Seats.west.value(st)).toBe('d')
+    expect(Seats.north.value(st,'e')).toBe('a')
+    expect(Seats.north.value(st)).toBe('e')
 })
 
 test('SeatRecord accessors', ()=>{

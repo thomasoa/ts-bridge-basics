@@ -98,7 +98,7 @@ class FullHand {
     suit(suit:Suit):Holding {
         return suit.value(this.holdings)
     }
-    
+
     has(card:Card):boolean {
         return this.suit(card.suit).has(card.rank)
     }
@@ -138,6 +138,39 @@ class FullHand {
         })
         return suits.join(' ')
     }   
+
+    toString():string {
+        return this.asString()
+    }
+
+    mapCards<T>(callback:(card:Card)=> T): T[] {
+        const result = new Array<T>()
+        this.eachCard((card) => {
+            result.push(callback(card))
+        })
+        return result
+    }
+    
+    static byCards(cards:Card[]):FullHand {
+        const suitBits = [0,0,0,0] as SuitTuple<number>
+        cards.forEach((card:Card) => {
+            const bits  = card.suit.value(suitBits)
+            card.suit.value(suitBits, bits | card.rank.bit)
+        })
+        return new FullHand(suitBits.map((bits) => new Holding(bits)) as SuitTuple<Holding>)
+    }
+
+    static forString(handString:string):FullHand {
+        handString = handString.toUpperCase()
+        const match = handString.match(
+            /^ *S:?([^SHDC]*)H:?([^SHDC]*)D:?([^SHDC]*)C:?([^SHDC]*)$/
+        )
+        if (match) {
+            const holdings = [match[1],match[2],match[3],match[4]].map((s) => Holding.forString(s.trim())) as SuitTuple<Holding>
+            return new FullHand(holdings)
+        }
+        throw Error('Invalid hand string: ' + handString)
+    }
 
 }
 

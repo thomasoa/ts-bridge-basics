@@ -110,7 +110,28 @@ class FullHand {
             holding.ranks.forEach((rank) => { callback(rank.of(suit))})
         })
     }
+
+    holding(suit:Suit):Holding {
+        return suit.value(this.holdings)
+    }
     
+    eachHolding(callback: (sh:SuitHolding) => void):void {
+        Deck.suits.all.forEach((suit:Suit) => {
+            const holding: OptionalHolding = this.holding(suit)
+            if (holding) {
+                callback({suit: suit,holding: holding})
+            }        
+        })
+    }
+
+    asString(key:"symbol"|"letter"="letter"):string {
+        const suits = new Array<string>()
+        this.eachHolding((sh:SuitHolding) => {
+            suits.push((sh.suit[key] as string)+sh.holding.asString(''))
+        })
+        return suits.join(' ')
+    }   
+
 }
 
 export {PartialHand, Suit, SuitRecord, PartialSuitRecord, FullHand}

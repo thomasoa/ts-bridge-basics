@@ -84,4 +84,33 @@ class PartialHand {
     }   
 }
 
-export {PartialHand, Suit, SuitRecord, PartialSuitRecord}
+class Hand {
+    private readonly holdings: SuitTuple<Holding>
+
+    constructor(holdings:SuitRecord<Holding>|SuitTuple<Holding>) {
+        this.holdings = Deck.suits.toTuple(holdings)
+        const length = this.holdings.reduce((prev,h) => prev+ h.length, 0)
+        if (length != 13) {
+            throw new Error(`Hand must have 13 cardds, got ${length} cards`)
+        }
+    }
+
+    suit(suit:Suit):Holding {
+        return suit.select(this.holdings)
+    }
+
+    eachSuit(callback: (h:Holding,suit:Suit) => void):void {
+        Deck.suits.all.forEach((suit:Suit) => {
+            callback(this.suit(suit),suit)
+        })
+    }
+
+    eachCard(callback: (c:Card) => void):void {
+        this.eachSuit((holding,suit) => {
+            holding.ranks.forEach((rank) => { callback(rank.of(suit))})
+        })
+    }
+    
+}
+
+export {PartialHand, Suit, SuitRecord, PartialSuitRecord, Hand}

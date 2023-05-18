@@ -240,6 +240,9 @@ AllSuits.forEach((suit) => {
 
 function toSuitTuple<T>(arg:SuitRecord<T>|SuitTuple<T>):SuitTuple<T> {
     if (arg instanceof Array) {
+        if (arg.length != 4) {
+            throw new Error('Wrong number of suits')
+        }
         return arg as SuitTuple<T>
     }
     const argRec = arg as SuitRecord<T>

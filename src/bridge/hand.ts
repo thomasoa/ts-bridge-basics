@@ -84,7 +84,7 @@ class PartialHand {
     }   
 }
 
-class Hand {
+class FullHand {
     private readonly holdings: SuitTuple<Holding>
 
     constructor(holdings:SuitRecord<Holding>|SuitTuple<Holding>) {
@@ -113,4 +113,4 @@ class Hand {
     
 }
 
-export {PartialHand, Suit, SuitRecord, PartialSuitRecord, Hand}
+export {PartialHand, Suit, SuitRecord, PartialSuitRecord, FullHand}

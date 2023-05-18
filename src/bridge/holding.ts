@@ -178,7 +178,6 @@ class XHolding {
         }
         const combined = this.nonSpots.bits | h.nonSpots.bits
         const spotBits = (1<<(this.spots + h.spots))-1
-        console.log('Bits ' +(combined&spotBits) + ' ' + spotBits + ' for ' + h.asString() + ' ' + this.asString())
         
         return !(combined&spotBits)
     }

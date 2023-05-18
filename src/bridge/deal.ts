@@ -3,7 +3,7 @@ import {FullHand} from './hand'
 import {Holding} from './holding'
 
 class FullDeal {
-    hands:SeatTuple<FullHand> 
+    private hands:SeatTuple<FullHand> 
 
     constructor(whom:Seat[]) {
         const bits:SeatTuple<SuitTuple<number>> = [
@@ -24,4 +24,10 @@ class FullDeal {
             return new FullHand(holdings)
         }) as SeatTuple<FullHand>
     }
+
+    hand(seat:Seat):FullHand {
+        return seat.value(this.hands)
+    }
 }
+
+export {FullDeal}

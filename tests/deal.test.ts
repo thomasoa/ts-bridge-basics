@@ -21,3 +21,17 @@ test('Simple FullDeal failures', ()=> {
     expect(() => new FullDeal(whom)).toThrow()
 
 })
+
+test("Deal eachHand", () => {
+    const toWhom = Array.from({ length: 52 }, (v, i) => Seats.all[Math.floor(i / 13)])
+    const deal = new FullDeal(toWhom)
+    const expected = new Map([
+       ["north", "SAKQJ1098765432 H- D- C-"],
+       ["east", "S- HAKQJ1098765432 D- C-"],
+       ['south', 'S- H- DAKQJ1098765432 C-'],
+       ['west', 'S- H- D- CAKQJ1098765432']
+    ])
+    deal.eachHand((seat, hand) => {
+       expect(hand.toString()).toBe(expected.get(seat.name))
+    })
+ })

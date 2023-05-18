@@ -1,6 +1,6 @@
 import {PartialHand, FullHand} from "../src/bridge/hand"
 import {Holding, XHolding} from "../src/bridge/holding"
-import {Deck, Card} from "../src/bridge/constants"
+import {Deck, Card, SuitTuple} from "../src/bridge/constants"
 
 test('partial hand each holding', ()=> {
     const R = Deck.ranks
@@ -84,7 +84,7 @@ test('FullHand constructor', () => {
     expect(hand.hearts.asString()).toBe('Q987')
     expect(hand.diamonds.asString()).toBe('5432')
     expect(hand.clubs.asString()).toBe('-')
-    
+
     expect(hand.has(Deck.ranks.ace.of(Deck.suits.spades))).toBeTruthy()
     expect(hand.has(Deck.ranks.ace.of(Deck.suits.hearts))).toBeFalsy()
 
@@ -93,3 +93,61 @@ test('FullHand constructor', () => {
     hand.eachCard((card:Card) => cards.push(card.short))
     expect(cards).toEqual(['SA','SJ','S10','S3','S2', 'HQ','H9','H8','H7','D5','D4','D3','D2'])
 })
+
+test("Hand construction and holdings", () => {
+    const cards = Deck.cards.byNames(
+       "SQ", "S10", "S9", "HA",
+       "H8", "H7", "H6", "H5",
+       "H4", "H3", "H2", "DK", "DJ")
+    const hand = FullHand.byCards(cards)
+    expect(hand.has(Deck.c('HA'))).toBeTruthy()
+    expect(hand.has(Deck.c('SA'))).toBeFalsy()
+ 
+    expect(hand.spades.toString()).toBe('Q 10 9')
+    expect(hand.hearts.toString()).toBe("A 8 7 6 5 4 3 2")
+    expect(hand.diamonds.toString()).toBe("K J")
+    expect(hand.clubs.toString()).toBe("-")
+    expect(hand.toString()).toBe('SQ109 HA8765432 DKJ C-')
+ })
+
+ test("Hand eachSuit method", () => {
+    const cards = Deck.cards.byNames(
+       "SQ", "S10", "S9", "HA",
+       "H8", "H7", "H6", "H5",
+       "H4", "H3", "H2", "DK", "DJ")
+    const hand = FullHand.byCards(cards)
+    const suitMap = new Map()
+    hand.eachSuit((holding,suit) => {
+       suitMap.set(suit.name, holding.toString())
+    })
+ 
+    expect(suitMap.get('spades')).toBe('Q 10 9')
+    expect(suitMap.get('hearts')).toBe("A 8 7 6 5 4 3 2")
+    expect(suitMap.get('diamonds')).toBe("K J")
+    expect(suitMap.get('clubs')).toBe("-")
+ 
+ })
+
+
+test("Hand without the right number of suits", ()=> {
+    const holdings = ['AKQJ','1098','765432'].map(Holding.forString) as SuitTuple<Holding>
+    expect(() => new FullHand(holdings)).toThrow()
+ })
+
+test("Hand.forHoldings without the right number of suits", ()=> {
+    const holdings = ['AKQJ','1098','765432','-','-'].map(Holding.forString) as SuitTuple<Holding>
+    expect(() => new FullHand(holdings)).toThrow()
+ })
+
+ test('Hand.forString()', ()=> {
+    const hand = FullHand.forString('SAK h:qjt D98765432 C')
+    expect(hand.spades.toString()).toBe('A K')
+    expect(hand.hearts.toString()).toBe('Q J 10')
+    expect(hand.diamonds.toString()).toBe('9 8 7 6 5 4 3 2')
+    expect(hand.clubs.toString()).toBe('-')
+ })
+ 
+ test('Hand.forString()', ()=> {
+    expect(() => FullHand.forString('')).toThrow()
+ })
+ 

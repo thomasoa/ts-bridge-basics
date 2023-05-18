@@ -173,7 +173,6 @@ class XHolding {
 
     isDisjoint(h:HoldingLike):boolean {
         if (this.nonSpots.bits & h.nonSpots.bits) {
-            console.log('Nonspots are not disjoint for ' + h.asString() + ' ' + this.asString())
             return false
         }
         const combined = this.nonSpots.bits | h.nonSpots.bits

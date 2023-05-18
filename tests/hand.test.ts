@@ -1,4 +1,4 @@
-import {PartialHand} from "../src/bridge/hand"
+import {PartialHand, FullHand} from "../src/bridge/hand"
 import {Holding, XHolding} from "../src/bridge/holding"
 import {Deck, Card} from "../src/bridge/constants"
 
@@ -57,7 +57,31 @@ test('Partial hand add and remove methods', ()=> {
     expect(() => hand.remove(r.ace.of(s.spades))).toThrow()
     hand.addSpots(s.clubs,3)
     expect(hand.asString()).toBe('SJ D10 CXXX')
+    hand.addSpots(s.clubs)
+    expect(hand.asString()).toBe('SJ D10 CXXXX')
     hand.remove(r.jack.of(s.spades))
-    expect(hand.asString()).toBe('S- D10 CXXX')
+    expect(hand.asString()).toBe('S- D10 CXXXX')
+})
 
+test('addHolding successful calls', () => {
+    const hand = new PartialHand({spades: Holding.forString('Q102')})
+    hand.addHolding(Deck.suits.diamonds,Holding.forString('AJ2'))
+    expect(hand.asString()).toBe('SQ102 DAJ2')
+    hand.addHolding(Deck.suits.spades,Holding.forString('K93'))
+    expect(hand.asString()).toBe('SKQ10932 DAJ2')
+})
+
+test('addHolding successful calls', () => {
+    const hand = new PartialHand({spades: Holding.forString('Q102')})
+    expect(() => hand.addHolding(Deck.suits.spades,Holding.forString('Q93'))).toThrow()
+})
+
+test('FullHand constructor', () => {
+    const hs = Holding.forString
+    const hand = new FullHand({spades: hs('AJ1032'), hearts: hs('Q987'), diamonds: hs('5432'), clubs: hs('-')})
+    expect(hand.asString()).toBe('SAJ1032 HQ987 D5432 C-')
+    expect(hand.suit(Deck.suits.spades).asString()).toBe('AJ1032')
+    const cards:string[] = []
+    hand.eachCard((card:Card) => cards.push(card.short))
+    expect(cards).toEqual(['SA','SJ','S10','S3','S2', 'HQ','H9','H8','H7','D5','D4','D3','D2'])
 })

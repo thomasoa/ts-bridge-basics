@@ -47,13 +47,13 @@ type SuitName = 'spades'|'hearts'|'diamonds'|'clubs'
 type SuitRecord<T> = Record<SuitName,T>
 type PartialSuitRecord<T> = Partial<SuitRecord<T>>
 type SuitTuple<T> =  [T,T,T,T]
-
+type SeatOrder = 0|1|2|3
 class Seat {
     private static readonly AllSeats = new Array<Seat>(4)
     readonly name: SeatName;
     readonly letter: string;
-    readonly order: number
-    constructor(name: SeatName,letter: string,order: number) {
+    readonly order: SeatOrder
+    constructor(name: SeatName,letter: string,order: SeatOrder) {
         if (Seat.AllSeats[order]) {
             return Seat.AllSeats[order]
         }
@@ -123,6 +123,8 @@ const Seats = {
 
 Object.freeze(Seats)
 
+type SuitOrder = 0|1|2|3
+
 type SuitBase = {
     name: SuitName;
     singular: string,
@@ -130,7 +132,7 @@ type SuitBase = {
     symbol: string;
     color: "red"|"black",
     type: "major" | "minor",
-    order: number,
+    order: SuitOrder,
     summand: number,
 }
 
@@ -141,7 +143,7 @@ class Suit {
     readonly symbol: string;
     readonly color: "red"|"black"
     readonly type: "major" | "minor"
-    readonly order: number
+    readonly order: SuitOrder
     readonly summand: number
 
     constructor(suit:SuitBase) {

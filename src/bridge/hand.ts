@@ -114,13 +114,11 @@ class FullHand {
     holding(suit:Suit):Holding {
         return suit.value(this.holdings)
     }
-    
+
     eachHolding(callback: (sh:SuitHolding) => void):void {
         Deck.suits.all.forEach((suit:Suit) => {
             const holding: OptionalHolding = this.holding(suit)
-            if (holding) {
-                callback({suit: suit,holding: holding})
-            }        
+            callback({suit: suit,holding: holding})
         })
     }
 

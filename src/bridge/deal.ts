@@ -46,12 +46,7 @@ class FullDeal {
     }
 
     equals(other:FullDeal):boolean {
-        this.toWhom.forEach((seat,index)  => {
-            if (seat != other.toWhom[index]) {
-                return false
-            }
-        })
-        return true
+        return this.toWhom.every((seat,index)  => seat == other.toWhom[index])
     }
 }
 

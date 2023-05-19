@@ -150,4 +150,10 @@ test("Hand.forHoldings without the right number of suits", ()=> {
  test('Hand.forString()', ()=> {
     expect(() => FullHand.forString('')).toThrow()
  })
+
+ test('mapCards() basic', () => {
+    const hand = FullHand.forString('SAK h:qjt D98765432 C')
+    const cards = hand.mapCards((card) => card.short)
+    expect(cards).toEqual(['SA','SK','HQ','HJ','H10','D9','D8','D7','D6','D5','D4','D3','D2'])
+ })
  

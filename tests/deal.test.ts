@@ -14,6 +14,21 @@ test('Simple deal constructor', ()=> {
     expect(deal.west).toBe(deal.hand(Seats.west))
 }) 
 
+test('eachCard whom', () => {
+    const whom = Deck.cards.map((card) => Seats.all[Math.floor(card.order/13)])
+    const deal = new FullDeal(whom)
+    deal.eachCard((card,seat) => {
+        expect(seat).toBe(whom[card.order])
+    })
+    const deal2 = new FullDeal(whom)
+    expect(deal.equals(deal2)).toBeTruthy()
+
+    const whom3 = Deck.cards.map((card) => Seats.all[card.order%4])
+    const deal3 = new FullDeal(whom3)
+    expect(deal.equals(deal3)).toBeFalsy()
+
+})
+
 test('Simple FullDeal failures', ()=> {
     const whom = Deck.cards.map((card) => Seats.all[Math.floor(card.order/13)])
     expect(() => new FullDeal(whom.slice(0,51))).toThrow()

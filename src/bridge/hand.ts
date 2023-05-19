@@ -154,7 +154,7 @@ class FullHand {
     static pbnParse(str:string,seperator='.'):FullHand {
         const holdings = str.split(seperator).map(s => Holding.forString(s))
         if (holdings.length != 4) { 
-            throw new Error('Wrong number of holdings for hand')
+            throw new Error('Wrong number of holdings for hand ' + str)
         }
         return new FullHand(holdings as SuitTuple<Holding>)
     }

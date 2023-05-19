@@ -50,3 +50,8 @@ test("Deal eachHand", () => {
        expect(hand.toString()).toBe(expected.get(seat.name))
     })
  })
+ 
+ test('Deal.pbnParse', ()=> {
+    const deal = FullDeal.pbnParse('N:QT9.A8765432.KJ.:KJ..A8765432.QT9:A8765432.QT9..KJ:.KJ.QT9.A8765432')
+    expect(deal.north.asString()).toBe('SQ109 HA8765432 DKJ C-')
+ })

@@ -45,6 +45,25 @@ class FullDeal {
         this.hands.forEach((hand,index) => method(Seats.all[index],hand))           
     }
 
+    static pbnParse(str:string) {
+        const parts = str.split(':')
+        if (parts.length!=5) {
+            throw new Error('Invalid deal string: ' + str)
+        }
+        const firstSeat:Seat|undefined = Seats.byText(parts[0])
+        if (firstSeat == undefined) {
+            throw new Error('Invalid first seat ' + parts[0] + ' for deal ' + str)
+        }
+        const hands = parts.slice(1).map(part => FullHand.pbnParse(part))
+        const toWhom = new Array<Seat>(52)
+        let currentSeat = firstSeat
+        hands.forEach((hand) => {
+            hand.eachCard((card) => { toWhom[card.order]=currentSeat})
+            currentSeat = currentSeat.lho
+        })
+        return new FullDeal(toWhom)
+    }
+
     equals(other:FullDeal):boolean {
         return this.toWhom.every((seat,index)  => seat == other.toWhom[index])
     }

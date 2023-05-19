@@ -151,6 +151,14 @@ class FullHand {
         return result
     }
     
+    static pbnParse(str:string,seperator='.'):FullHand {
+        const holdings = str.split(seperator).map(s => Holding.forString(s))
+        if (holdings.length != 4) { 
+            throw new Error('Wrong number of holdings for hand')
+        }
+        return new FullHand(holdings as SuitTuple<Holding>)
+    }
+
     static byCards(cards:Card[]):FullHand {
         const suitBits = [0,0,0,0] as SuitTuple<number>
         cards.forEach((card:Card) => {

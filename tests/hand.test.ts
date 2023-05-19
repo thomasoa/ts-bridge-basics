@@ -156,4 +156,17 @@ test("Hand.forHoldings without the right number of suits", ()=> {
     const cards = hand.mapCards((card) => card.short)
     expect(cards).toEqual(['SA','SK','HQ','HJ','H10','D9','D8','D7','D6','D5','D4','D3','D2'])
  })
+
+ test('Hand.pbnParse positive case', ()=> {
+    const hand = FullHand.pbnParse('QT9.A8765432.KJ.')
+    expect(hand.spades.asString()).toBe('Q109')
+    expect(hand.hearts.asString()).toBe('A8765432')
+    expect(hand.diamonds.asString()).toBe('KJ')
+    expect(hand.clubs.asString()).toBe('-')
+ })
+
+ test('Hand.pbnParse exception case', ()=> {
+    expect(() => FullHand.pbnParse('QT9.A8765432.KJ')).toThrow()
+ })
+
  

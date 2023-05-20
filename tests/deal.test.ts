@@ -54,6 +54,9 @@ test("Deal eachHand", () => {
  test('Deal.pbnParse', ()=> {
     const deal = FullDeal.pbnParse('N:QT9.A8765432.KJ.:KJ..A8765432.QT9:A8765432.QT9..KJ:.KJ.QT9.A8765432')
     expect(deal.north.asString()).toBe('SQ109 HA8765432 DKJ C-')
+    expect(deal.east.asString()).toBe('SKJ H- DA8765432 CQ109')
+    expect(deal.south.asString()).toBe('SA8765432 HQ109 D- CKJ')
+    expect(deal.west.asString()).toBe('S- HKJ DQ109 CA8765432')
  })
 
  test('FullDeal.pbnParse error cases', ()=> {

@@ -28,3 +28,6 @@ Intermeddate concepts:
 - Hand: 13 distinct cards.
 
 - Deal: A division of all 52 two cards to hands, one per seat.
+
+
+TODO: Contracts, Auctions, and play records.

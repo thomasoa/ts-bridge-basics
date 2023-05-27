@@ -33,3 +33,5 @@ Intermeddate concepts:
 TODO: Contracts, auctions, and play records, partial hands and partial deals (diagrams.)
 
 The was originally started for my Impossible Bridge Book project, but I wanted to re-use as much as possible for my contract-bridge-xml project, as well, so I moved these classes, types, and constants to their own repository.
+
+Since this is also a learning project, I often try lots of different TypeScript approaches.

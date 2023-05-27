@@ -23,11 +23,13 @@ an array in that order.
 
 Intermeddate concepts:
 
-- Holding: The ranks of a particular suit. You might say "My hearts were Ace, king, jack, five, and two." "Ake, king, jack, five and two" is the holding.
+- Holding: A set of ranks of an unspecified suit. You might say "My hearts were Ace, king, jack, five, and two." "Ake, king, jack, five and two" is the holding. Holdings are often the basis of evaluation functions.
 
 - Hand: 13 distinct cards.
 
 - Deal: A division of all 52 two cards to hands, one per seat.
 
 
-TODO: Contracts, Auctions, and play records.
+TODO: Contracts, auctions, and play records, partial hands and partial deals (diagrams.)
+
+The was originally started for my Impossible Bridge Book project, but I wanted to re-use as much as possible for my contract-bridge-xml project, as well, so I moved these classes, types, and constants to their own repository.

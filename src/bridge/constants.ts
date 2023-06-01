@@ -165,15 +165,18 @@ class Suit {
     unset<T>(aRec:PartialSuitRecord<T>):void { delete aRec[this.name]}
 }
 
+type RankBrief = 'A'|'K'|'Q'|'J'|'10'|'9'|'8'|'7'|'6'|'5'|'4'|'3'|'2'
+type RankName = 'ace'|'king'|'queen'|'jack'|'ten'|'nine'|'eight'|'seven'|'six'|'five'|'four'|'three'|'two'
+
 class Rank {
-    brief: string
-    name: string
+    brief: RankBrief
+    name: RankName
     order: number
     bit: number
-    letter: string
+    letter: RankBrief|'T'
     summand: number
     
-    constructor(brief: string, name:string, order: number, letter: string | undefined = undefined) {
+    constructor(brief: RankBrief, name:RankName, order: number, letter: RankBrief|'T' | undefined = undefined) {
         this.brief = brief
         this.name = name
         this.order = order
@@ -366,7 +369,7 @@ function createRankParser(): (text: string) => RankLookupResult {
 
 const rankParser = createRankParser()
 
-function rankByText(text: string): Rank {
+function rankByText(text: string) {
     text = text.toUpperCase()
     const result = rankParser(text)
     if (result.rest != "") {
@@ -441,7 +444,7 @@ AllCards.forEach((card:Card) => {
     })
 })
 
-function cardBySuitRank(suit: Suit, rank: Rank): Card {
+function cardBySuitRank(suit: Suit, rank: Rank) {
     return AllCards[suit.summand + rank.summand]
 }
 
@@ -449,16 +452,16 @@ interface Rank {
     of(suit: Suit): Card
 }
 
-Rank.prototype.of = function (suit: Suit): Card { return cardBySuitRank(suit, this) }
+Rank.prototype.of = function (suit: Suit) { return cardBySuitRank(suit, this) }
 
-function lookupCardByName(name: string): Card {
+function lookupCardByName(name: string) {
     name = name.toUpperCase()
     const card: Card | undefined = CardsByName.get(name)
     if (card) { return card }
     throw Error('Invalid card name ' + name)
 }
 
-function lookupCardsByNames(...names: string[]): Card[] {
+function lookupCardsByNames(...names: string[]) {
     return names.map(lookupCardByName)
 }
 

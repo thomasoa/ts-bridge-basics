@@ -19,17 +19,24 @@ interface HoldingLike {
 }
 
 class Holding {
-    static lwHoldings = new Array<Holding>(1<<13)
+    /**
+     * Immutable holdings of a set of ranks in a single unspecified suits.
+     */
+    private static lightweightInstances = new Array<Holding>(1<<13)
 
     readonly ranks: readonly Rank[]
     readonly bits:number
     constructor(bits:number) {
-        if (Holding.lwHoldings[bits]) {
-            return Holding.lwHoldings[bits]
+        if (bits<0 || bits>= (1<<13)) {
+            throw new Error(`bits ${bits} out of range`)
+        }
+
+        if (Holding.lightweightInstances[bits]) {
+            return Holding.lightweightInstances[bits]
         }
         this.bits = bits
         this.ranks = Deck.ranks.all.filter((rank:Rank) => rank.bit & bits)
-        Holding.lwHoldings[bits] = this
+        Holding.lightweightInstances[bits] = this
     }
         
     get length() { return this.ranks.length }
@@ -42,11 +49,11 @@ class Holding {
         return this.ranks.map((rank)=> rank.brief).join(divider)
     }
         
-    isVoid():boolean {
+    isVoid() {
             return this.length == 0
     }
 
-    isDisjoint(h:HoldingLike):boolean {
+    isDisjoint(h:HoldingLike) {
         return !(this.bits & h.holding.bits)
     }
         
@@ -55,15 +62,15 @@ class Holding {
         return newH.addSpots(h.spots)
     }
 
-    toString():string {
+    toString() {
             return this.asString(' ')
     }
         
-    has(rank:Rank):boolean {
+    has(rank:Rank) {
         return (this.bits & rank.bit) != 0
     }
 
-    remove(rank:Rank):Holding {
+    remove(rank:Rank) {
         if (this.has(rank)) {
             return new Holding(this.bits & ~rank.bit)
         }
@@ -92,6 +99,7 @@ class Holding {
     get nonSpots():Holding { return this }
 
     above(rank:Rank):Holding {
+        /* Make a holding of the ranks in this holding above the argument rank */
         return new Holding(this.bits & ~((rank.bit<<1)-1))
     }
 

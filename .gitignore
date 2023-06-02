@@ -5,3 +5,4 @@ coverage/**/*
 *.zip
 dest/**/*
 .DS_Store
+docs

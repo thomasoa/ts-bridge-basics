@@ -16,6 +16,17 @@ test("Holding void", () => {
    expect(holding === new Holding(0)).toBeTruthy()
 })
 
+test('Holding all ranks', () => {
+    const holding = new Holding((1<<13)-1)
+    console.log(Deck.ranks.map((rank) => holding.has(rank)))
+    expect(Deck.ranks.all.every((rank) => holding.has(rank))).toBeTruthy()
+})
+
+test('Holding constructor error', ()=> {
+    expect(()=> new Holding(-1)).toThrow()
+    expect(()=> new Holding(1<<13)).toThrow()
+})
+
 test("AK2 Holding", () => {
     const r = Deck.ranks
    const holding = Holding.fromRanks([r.ace, r.king, r.five, r.two])
@@ -140,3 +151,4 @@ test('Holding.disjoint and Holding.union', ()=>{
 
     expect(Q97xxxx.union(hKJ6).asString()).toBe('KQJ976XXXX')
 })
+

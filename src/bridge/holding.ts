@@ -22,7 +22,7 @@ class Holding {
     /**
      * Immutable holdings of a set of ranks in a single unspecified suits.
      */
-    private static lightweightInstances = new Array<Holding>(1<<13)
+    private static lightweightInstances = new Array<Holding>(1<<13 /* 8192 */)
 
     readonly ranks: readonly Rank[]
     readonly bits:number

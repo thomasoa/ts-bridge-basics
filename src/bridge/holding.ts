@@ -243,8 +243,8 @@ function parseHolding(start:string):HoldingLike {
     }
     const match = str.match(parseRE)
     if (match) {
-        const holding = Holding.forString(match[1])
-        const spots = match[2].length
+        const holding = Holding.forString(match[1] as string)
+        const spots = (match[2] as string).length
         if (spots>0) {
             return new XHolding(holding,spots)
         }

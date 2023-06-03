@@ -54,8 +54,9 @@ class Seat {
     readonly letter: string;
     readonly order: SeatOrder
     constructor(name: SeatName,letter: string,order: SeatOrder) {
-        if (Seat.AllSeats[order]) {
-            return Seat.AllSeats[order]
+        const existing = Seat.AllSeats[order]
+        if (existing) {
+            return existing
         }
         this.name = name
         this.letter = letter

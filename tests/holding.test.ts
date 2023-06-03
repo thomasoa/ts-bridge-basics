@@ -18,7 +18,6 @@ test("Holding void", () => {
 
 test('Holding all ranks', () => {
     const holding = new Holding((1<<13)-1)
-    console.log(Deck.ranks.map((rank) => holding.has(rank)))
     expect(Deck.ranks.all.every((rank) => holding.has(rank))).toBeTruthy()
 })
 

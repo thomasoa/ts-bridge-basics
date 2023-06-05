@@ -25,7 +25,8 @@
         "test-coverage": "jest --silent=false --collect-coverage",
         "cleanbuild": "npm run clean && npm run build",
         "clean": "rm -rf dest",
-        "build:fiximports": "sh bin/fiximports.sh"
+        "build:fiximports": "sh bin/fiximports.sh",
+        "typedoc":"npx typedoc src/index.ts"
     },
     "babel": {
         "env": {

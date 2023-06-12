@@ -37,17 +37,41 @@ function f<T>(obj: T): T {
     return obj
 }
 
+/**
+ * Seat name type - one of "north", "east", "south" or "west"
+ */
 type SeatName = 'north'|'east'|'south'|'west'
+
 type SeatRecord<T> = Record<SeatName,T>
 type PartialSeatRecord<T> = Partial<SeatRecord<T>>
 
+/**
+ * A tuple, one per seat, in order [N,E,S,W]
+ */
 type SeatTuple<T> =  [T,T,T,T]
 
+/**
+ * Suit name type - one of "spades", "hearts", "diamonds" or "clubs"
+ */
 type SuitName = 'spades'|'hearts'|'diamonds'|'clubs'
+
+/**
+ * Suit record type: keyed by SuitName type
+ */
 type SuitRecord<T> = Record<SuitName,T>
+
 type PartialSuitRecord<T> = Partial<SuitRecord<T>>
+
+/**
+ * A tuple, one per suit, in order [S,H,D,C]
+ */
 type SuitTuple<T> =  [T,T,T,T]
+
+/**
+ * Seat order type - 0=N, 1=E, 2=S. 3=W
+ */
 type SeatOrder = 0|1|2|3
+
 class Seat {
     private static readonly AllSeats = new Array<Seat>(4)
     readonly name: SeatName;
@@ -486,7 +510,8 @@ Object.freeze(Deck)
 
 export {
     Deck, Seats, /* constants */
-    SeatName, SeatRecord, PartialSeatRecord, SeatTuple,
-    SuitName, SuitRecord,  PartialSuitRecord, SuitTuple,
+    SeatName, SeatOrder, SeatRecord, PartialSeatRecord, SeatTuple,
+    SuitName, SuitOrder, SuitRecord,  PartialSuitRecord, SuitTuple,
+    RankBrief, RankName,
     Suit, Rank, Card, Seat /* types */
 }

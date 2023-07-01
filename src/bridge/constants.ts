@@ -50,9 +50,10 @@ type SuitTuple<T> =  [T,T,T,T]
 type SeatOrder = 0|1|2|3
 class Seat {
     private static readonly AllSeats = new Array<Seat>(4)
-    readonly name: SeatName;
-    readonly letter: string;
+    readonly name: SeatName
+    readonly letter: string
     readonly order: SeatOrder
+
     constructor(name: SeatName,letter: string,order: SeatOrder) {
         const existing = Seat.AllSeats[order]
         if (existing) {
